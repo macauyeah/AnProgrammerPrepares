@@ -1,3 +1,6 @@
 [submodule "src/VMDockerNotes"]
 	path = src/VMDockerNotes
 	url = https://github.com/macauyeah/VMDockerNotes.git
+[submodule "src/spring-boot-multiple-datasource"]
+	path = src/spring-boot-multiple-datasource
+	url = https://github.com/macauyeah/spring-boot-multiple-datasource.git

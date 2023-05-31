@@ -1,5 +1,6 @@
 [book]
+title = "A Programmer Prepares"
 authors = []
-language = "en"
+language = "zh-Hant"
 multilingual = false
 src = "src"
