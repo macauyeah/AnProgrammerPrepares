@@ -10,6 +10,7 @@
 - [Multipass with static IP - 中文](./VMDockerNotes/MultipassStaticIpCN.md)
 - [Docker Cluster with Multipass - EN](./VMDockerNotes/MultipassDockerClusterEN.md)
 - [Docker Cluster with Multipass - 中文](./VMDockerNotes/MultipassDockerClusterCN.md)
+- [Vmware下建立Docker Cluster - 中文](./VMDockerNotes/VmwareDockerClusterCN.md)
 
 ---
 
