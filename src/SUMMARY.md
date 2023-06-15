@@ -11,6 +11,8 @@
 - [Docker Cluster with Multipass - EN](./VMDockerNotes/MultipassDockerClusterEN.md)
 - [Docker Cluster with Multipass - 中文](./VMDockerNotes/MultipassDockerClusterCN.md)
 - [Vmware下建立Docker Cluster - 中文](./VMDockerNotes/VmwareDockerClusterCN.md)
+- [Encapsulate Command Line Binary as Docker Image - EN](./VMDockerNotes/BinaryAsDockerImageEN.md)
+- [Encapsulate Command Line Binary as Docker Image - 中文](./VMDockerNotes/BinaryAsDockerImageCN.md)
 
 ---
 
