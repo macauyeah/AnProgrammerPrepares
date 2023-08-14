@@ -14,6 +14,7 @@
 - [Vmware下建立Docker Cluster - 中文](./VMDockerNotes/VmwareDockerClusterCN.md)
 - [Encapsulate Command Line Binary as Docker Image - EN](./VMDockerNotes/BinaryAsDockerImageEN.md)
 - [Encapsulate Command Line Binary as Docker Image - 中文](./VMDockerNotes/BinaryAsDockerImageCN.md)
+- [Deploy Docker Cluster - 中文](./VMDockerNotes/DeployDockerClusterCN.md)
 
 ---
 

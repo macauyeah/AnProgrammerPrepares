@@ -1,1 +1,3 @@
-as of a programmer, some tech we need to keep improving
+As of a programmer, we should not only focus on source code development. We need to take a look about the DevOps workflow, and choose some suitable technology to ehance our working process (and the final product). Therefore, I write down notes and hope that it could be structure enough to be compaired or discussed, and hopefully to improve that.
+
+作為一個開發向的IT狗，應該要對一些DevOps技術有實踐上的認知，所以我把自身的經驗寫下來。希望可以有一個整體上的實踐方案以供討論和改進。
