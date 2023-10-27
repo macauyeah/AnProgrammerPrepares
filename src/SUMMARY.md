@@ -29,4 +29,5 @@
 ---
 
 # Spring boot
-- [Multiple datasource](./spring-boot-multiple-datasource/README.md)
+- [Websocke and HTTP 1.1](./spring/springBootWebSocket.md)
+- [Multiple datasource](./spring/springBootMultipleDatasource.md)

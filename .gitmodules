@@ -4,6 +4,3 @@
 [submodule "src/gitNotes"]
 	path = src/gitNotes
 	url = https://github.com/macauyeah/gitNotes.git
-[submodule "src/spring/spring-boot-multiple-datasource"]
-	path = src/spring/spring-boot-multiple-datasource
-	url = https://github.com/macauyeah/spring-boot-multiple-datasource.git
