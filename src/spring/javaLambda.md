@@ -127,3 +127,5 @@ private static List<Car> someotherfunction(List<Car> cars, List<Wheel> wheels)
 ```
 
 就最後的ex4版本，可以很明確的知道是cars被Predicate所作用
+
+如果大家還有其他使用Lambda的明顯好處，也可以一起來Github分享大家的[Code](https://github.com/macauyeah/spring-boot-demo)
