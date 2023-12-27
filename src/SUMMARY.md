@@ -6,8 +6,9 @@
 - [Docker的基本概念 - 中文](./VMDockerNotes/DockerConcept101CN.md)
 - [Build Command Line Application Docker Image - EN](./VMDockerNotes/BinaryAsDockerImageEN.md)
 - [Build Command Line Application Docker Image - 中文](./VMDockerNotes/BinaryAsDockerImageCN.md)
-- [Docker Swarm Mode Command - 中文](./VMDockerNotes/SwarmModeCommandCN.md)
 - [Deploy Docker Cluster - 中文](./VMDockerNotes/DeployDockerClusterCN.md)
+- [Swarm mode 上線 - 中文](./VMDockerNotes/SwarmModeCommandCN.md)
+- [Swarm mode 上線 2 - 中文](./VMDockerNotes/SwarmModeUndeployLeaveCN.md)
 - [Schedule Job with Docker - 中文](./VMDockerNotes/CronJobWithDockerCN.md)
 
 # VM
@@ -31,3 +32,4 @@
 # Spring boot
 - [Websocke and HTTP 1.1](./spring/springBootWebSocket.md)
 - [Multiple datasource](./spring/springBootMultipleDatasource.md)
+- [Java Lamdbda](./spring/javaLambda.md)
