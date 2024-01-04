@@ -9,6 +9,7 @@
 - [Deploy Docker Cluster - 中文](./VMDockerNotes/DeployDockerClusterCN.md)
 - [Swarm mode 上線 - 中文](./VMDockerNotes/SwarmModeCommandCN.md)
 - [Swarm mode 上線 2 - 中文](./VMDockerNotes/SwarmModeUndeployLeaveCN.md)
+- [Swarm mode 上線 3 - 中文](./VMDockerNotes/SwarmModeRollbackCN.md)
 - [Schedule Job with Docker - 中文](./VMDockerNotes/CronJobWithDockerCN.md)
 
 # VM
@@ -33,3 +34,4 @@
 - [Websocke and HTTP 1.1](./spring/springBootWebSocket.md)
 - [Multiple datasource](./spring/springBootMultipleDatasource.md)
 - [Java Lamdbda](./spring/javaLambda.md)
+- [Java Lamdbda - Sorting](./spring/javaLambda2.md)
