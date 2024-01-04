@@ -104,4 +104,4 @@ order by car.NumberOfWheels, car.size
 
 上述的例子中，getComparatorDouble，getComparatorInteger可能是別人寫好的Comparator，它們不是針對Car來使用的。但我們還是可以經過Comparator.comparing的介面，硬把Car轉為Double或Integer，然後就可以重用別人準備好的getComparatorDouble，getComparatorInteger。
 
-[Github Code](https://github.com/macauyeah/spring-boot-demo/src/main/java/macauyeah/personal/springdemo/lambda/ChainComparator.java)
+[Github Code](https://github.com/macauyeah/spring-boot-demo/)
