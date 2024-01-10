@@ -54,15 +54,56 @@ mvn test -pl SUBMODULE_NAME -am -Dtest=TEST_CLASS_NAME#TES_METHOD_NAME -Dsurefir
 mvn package
 ```
 
+## 例外情況
+強行把一個第三方jar，種到本機電腦中的.m2/repository
+```bash
+# copy from https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html
+mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+```
+
 有時特定Profile沒法成功執行測試用例，或者你認為有些測試問題不影響使用，需要跳過package中的test。
 ```bash
 mvn package -Dmaven.test.skip=true  # won't compile test folder
 mvn package -DskipTests=true # compile, but won't run
 ```
 
-## 例外情況
-強行把一個第三方jar，種到本機電腦中的.m2/repository
+若想預設特定submodule為不執行test。可以修改對應的pom.xml
+```xml
+	<profiles>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<maven.test.skip>true</maven.test.skip>
+			</properties>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+	</profiles>
+```
+
+此後有需要測試，則要手動執行
 ```bash
-# copy from https://maven.apache.org/guides/mini/guide-3rd-party-jars-local.html
-mvn install:install-file -Dfile=<path-to-file> -DgroupId=<group-id> -DartifactId=<artifact-id> -Dversion=<version> -Dpackaging=<packaging>
+mvn test -pl SUBMODULE_NAME -am -Dmaven.test.skip=false
+```
+
+若你不想整個submodule 跳過，想逐個class跳過。可以
+```xml
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>3.2.5</version>
+				<configuration>
+					<excludes>
+						<exclude>**/SpecialTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+```
+
+此後有需要測試，則要手動執行指定特定class。但你只能一個個class手動測試。
+```bash
+mvn clean compile test -pl SUBMODULE_NAME -am -Dtest=SpecialTest -Dsurefire.failIfNoSpecifiedTests=false
 ```
