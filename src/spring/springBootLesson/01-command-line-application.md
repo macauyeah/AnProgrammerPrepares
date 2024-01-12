@@ -9,9 +9,9 @@
 所以現在就不廢話，馬上開壇作法
 
 ## 快速下戴模版
-使用Spring initializr，可以很容易就建立一個以Spring boot starter為底的java project。大家可以使用[Spring 官網](https://start.spring.io/)又或是[vscode plugin](https://code.visualstudio.com/docs/java/java-spring-boot) 快速地建立一個maven或gradle project。
+使用Spring initializr，可以很容易就建立一個以Spring boot starter為底的java project。大家可以使用[Spring 官網](https://start.spring.io/)又或是[vscode plugin](https://code.visualstudio.com/docs/java/java-spring-boot) 快速地建立一個maven或gradle project。筆者較為熟悉maven，就以maven起一個範例。
 
-筆者較為熟悉maven，就以maven起一個範例。幾件事必需要指定的。
+在使用Spring initializr有幾件事必需要指定的:
 - Spring boot version: 3.x.y 或以上
 - Language: java
 - Group Id: 請選擇有意思的域名，如果你用github，可以選 io.github.yourusername
@@ -117,3 +117,6 @@ public class CommandlineApplication implements ApplicationRunner {
 換個講法，如果今天做的是web應用，傳入去的就會是SpringBootServletInitializer，這個SpringBootServletInitializer也不一定跟main是同一個class。
 
 如果大家有興趣，可以經過反編譯器，點入@SpringBootApplication看它的原始碼，你就可以看到它其實代表了很多自動化的東西。如果我們只做一些在同一個模組下生效的事情，《自動化》極大地降低了大家入門門檻。一般來講，如果大家不在意程式碼的複用度，比較少機會自行設定，自動化已經很有用。而隨著系統規模增加，多模組就慢慢地顯得重要，在大家了解完基本的Spring後，著者再從測試用途test case入手，為大家介紹如何手動設定。
+
+## Source Code
+[Commandline Application](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/commandline)
