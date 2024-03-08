@@ -2,9 +2,10 @@
 
 這節，我們將會使用spring-data-jpa，寫一個業務上的資料庫模組，提供資料表的存取，讓你的好同僚可以直接使用。這樣可以在多模組的環境中，減少同一個資料表在不同地方重複又重複地重定義。將來要更新，也可以使用jar檔的方式發佈。
 
-Spring Initializr
-H2 Database
-Spring Data JPA
+## 下戴模版
+我們跟上節一樣，使用Spring Initializr (Maven) 下載模版，但細節筆者就不再講啦。Dependency主要選擇
+- H2 Database
+- Spring Data JPA
 
 對pom.xml作一些微調，並把spring-boot-start-data-jpa，h2改為只在測試中生效。
 ```xml
@@ -31,8 +32,9 @@ src/test/java/io/github/macauyeah/springboot/tutorial/springbootdatatest/SpringB
 src/test/resources/application.properties
 ```
 
-以上的操作，主要是因為我們的目標是提供Schema，或者叫資料表規格。其他用於做連線的操作，我們不需要打包在jar內。所以把那些次要的東西都放在test資料夾中。
+以上的操作，主要是因為我們的目標是提供Schema，或者叫資料表規格。其他用於做連線的操作，我們不需要打包在jar內。所以把那些次要的東西都放在test資料夾中。我們這時可以先用```mvn test```指令，確保一切功能還是正常。
 
+## Entity folder
 然後我們入正題，在pom.xml中加入hibernate-core，spring-data-jpa，
 ```xml
         <dependency>

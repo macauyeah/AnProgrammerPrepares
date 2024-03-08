@@ -7,7 +7,7 @@
 - Spring boot version: 3.x.y 或以上
 - Language: java
 - Group Id: 請選擇有意思的域名，如果你用github，可以選 io.github.yourusername
-- artifactId: 這個範例的名字，例如commandline
+- artifactId: 這個範例的名字，例如spring-boot-data-basic
 - Packaging type: 本次使用jar，日後若開發web 應用，可以使用war
 - Java version: 17或以上
 - Dependency: Spring Data JPA, Spring Boot DevTools
@@ -35,7 +35,7 @@ spring.datasource.password=random
 
 然後我們就可以做靠Spring Data JPA去生資料庫的表 (table)。Spring Data JPA預設使用的是Hibernate。假設，我們有一個表叫APPLE。我們就可以開一個class Apple和一個interface AppleRepo去接它。
 ```java
-// src/main/java/io/github/macauyeah/spring/tutorial/springbootdatabasic/Apple.java
+// src/main/java/io/github/macauyeah/springboot/tutorial/springbootdatabasic/Apple.java
 @Entity
 public class Apple {
     @Id
@@ -44,7 +44,7 @@ public class Apple {
 	// getter setter
 }
 
-// src/main/java/io/github/macauyeah/spring/tutorial/springbootdatabasic/AppleRepo.java
+// src/main/java/io/github/macauyeah/springboot/tutorial/springbootdatabasic/AppleRepo.java
 public interface AppleRepo extends JpaRepository<Apple, String>{
     // no content here
 }
