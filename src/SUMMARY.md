@@ -11,6 +11,7 @@
 - [Swarm mode 上線 2 - 中文](./VMDockerNotes/SwarmModeUndeployLeaveCN.md)
 - [Swarm mode 上線 3 - 中文](./VMDockerNotes/SwarmModeRollbackCN.md)
 - [Schedule Job with Docker - 中文](./VMDockerNotes/CronJobWithDockerCN.md)
+- [Docker Variable control - 中文](./VMDockerNotes/DockerArgEnvCN.md)
 
 # VM
 - [Create custom Ubuntu cloud-img with Packer - 中文](./VMDockerNotes/MultipassPackerCN.md)
@@ -30,6 +31,7 @@
 - [Git Submodule](./gitNotes/submodule.md)
 - [Git Merge Timing](./gitNotes/git-merge-timing.md)
 - [Continuous Integration Strategy](./gitNotes/git-continuous-integration-strategy.md)
+- [Git Mono Repository]((./gitNotes/git-mono-repo.md))
 
 ---
 
@@ -44,3 +46,4 @@
 
 # Spring boot tutorial
 - [Spring Boot 01 - 萬物始於Spring boot context](./spring/springBootLesson/01-command-line-application.md)
+- [Spring Boot 02 - 快速接入Database的選擇: Spring Data JPA](./spring/springBootLesson/02-spring-data-jpa.md)
