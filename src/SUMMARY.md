@@ -32,6 +32,7 @@
 - [Git Merge Timing](./gitNotes/git-merge-timing.md)
 - [Continuous Integration Strategy](./gitNotes/git-continuous-integration-strategy.md)
 - [Git Mono Repository](./gitNotes/git-mono-repo.md)
+- [Git Worktree](./gitNotes/git-worktree.md)
 
 ---
 
