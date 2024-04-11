@@ -46,3 +46,57 @@ src/test/resources/application.properties
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
 ```
+
+然後在main資料夾下加入 Entity、Repository，例如前述用過的Apple和AppleRepo，最後資料夾就像是這樣。
+```
+.
+|-- pom.xml
+|-- src
+|   |-- main
+|   |   `-- java
+|   |       `-- io
+|   |           `-- github
+|   |               `-- macauyeah
+|   |                   `-- springboot
+|   |                       `-- tutorial
+|   |                           `-- springbootdatatest
+|   |                               |-- Apple.java
+|   |                               `-- AppleRepo.java
+|   `-- test
+|       |-- java
+|       |   `-- io
+|       |       `-- github
+|       |           `-- macauyeah
+|       |               `-- springboot
+|       |                   `-- tutorial
+|       |                       `-- springbootdatatest
+|       |                           |-- SpringBootDataTestApplication.java
+|       |                           `-- SpringBootDataTestApplicationTests.java
+|       `-- resources
+|           `-- application.properties
+```
+
+然後我們在Test Case中使用AppleRepo
+
+```java
+@SpringBootTest
+class SpringBootDataTestApplicationTests {
+	@Autowired
+	AppleRepo appleRepo;
+
+	@Test
+	void contextLoads() {
+		Apple apple = new Apple();
+		apple.setUuid(UUID.randomUUID().toString());
+		apple.setWeight(100.0);
+		apple.setGravity(1000.0);
+		appleRepo.save(apple);
+	}
+}
+```
+
+這個跟前述[02-spring-data-jpa](02-spring-data-jpa.md)最大的差別，就是我們的main中只有Entity相關的Class，我們發佈jar，別人引用我們的class，別人不會解發其他不相干的商業邏輯。假如發佈02的例子，因為Spring有自動初始化Component的原因，很可能會誤觸發02中的BasicApplicationRunner.java
+
+
+## Source Code
+[spring boot data test](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/spring-boot-data-test)
