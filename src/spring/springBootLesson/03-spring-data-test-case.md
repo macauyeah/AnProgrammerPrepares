@@ -1,4 +1,4 @@
-# spring data test case
+# Spring Boot 03 - 做好Database的模組化及測試用例
 
 這節，我們將會使用spring-data-jpa，寫一個業務上的資料庫模組，提供資料表的存取，讓你的好同僚可以直接使用。這樣可以在多模組的環境中，減少同一個資料表在不同地方重複又重複地重定義。將來要更新，也可以使用jar檔的方式發佈。
 
@@ -14,7 +14,7 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 			<scope>test</scope>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<scope>test</scope>
@@ -37,11 +37,11 @@ src/test/resources/application.properties
 ## Entity folder
 然後我們入正題，在pom.xml中加入hibernate-core，spring-data-jpa，
 ```xml
-        <dependency>
+		<dependency>
 			<groupId>org.springframework.data</groupId>
 			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
-        <dependency>
+		<dependency>
 			<groupId>org.hibernate.orm</groupId>
 			<artifactId>hibernate-core</artifactId>
 		</dependency>
