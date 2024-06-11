@@ -13,7 +13,7 @@ and modify test case, add with role statement;
 
 add in memory user, role, userdetails
 
-and modify test case, with user password only;
+and modify test case, with user password only; (by set header, dont use mock user, because it will ignore UserDetailsService)
 
 and we never run the real server;
 
@@ -26,3 +26,5 @@ curl -u "admin:pass" http://localhost:8080/api/someRecord/1234
 add maven dependency
 - Spring Data JPA (no, because only do in memory auth)
 - h2 database
+
+public class UserServiceImpl implements UserDetailsService, load user by repo; should ignore save statement because it should exists in database;
