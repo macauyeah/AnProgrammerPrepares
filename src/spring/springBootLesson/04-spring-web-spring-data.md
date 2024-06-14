@@ -46,9 +46,11 @@ public class HomeControllerTest {
     }
 }
 ```
-在我們執行上述的測試，IDE會說，期待api回傳狀態為4xx，但出現200。
+在我們執行上述的測試，test case 成功過了。我們的基本設定跟上一節其實沒有多大改動，為何現在http api會回傳狀態 401？
 
-我們加入認證用的設定，再執行測試，就可以成功得到401，test case成功過了。
+那是因為我們在依賴中加了，Spring Security，它配合了Spring Web，就會自動為所有api加入權限檢測。我們的測試中，沒有任何用戶登入，當然會出現 http 401。為了讓我們可以好好管理誰可以使用api，我們就來設定一定Security。
+
+我們加一個WebSecurityConfig.java，暫時指定所有的訪問路徑都必需有USER權限，並且用 http basic的方式登入。
 ```java
 //src/main/java/io/github/macauyeah/springboot/tutorial/springbootwebapidata/config/WebSecurityConfig.java
 import org.springframework.context.annotation.Bean;
