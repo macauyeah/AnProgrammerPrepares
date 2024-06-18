@@ -12,6 +12,7 @@
 - [Swarm mode 上線 3 - 中文](./VMDockerNotes/SwarmModeRollbackCN.md)
 - [Schedule Job with Docker - 中文](./VMDockerNotes/CronJobWithDockerCN.md)
 - [Docker Variable control - 中文](./VMDockerNotes/DockerArgEnvCN.md)
+- [於 Docker 中運行 Oracle](./VMDockerNotes/OracleCN.md)
 
 # VM
 - [Create custom Ubuntu cloud-img with Packer - 中文](./VMDockerNotes/MultipassPackerCN.md)
