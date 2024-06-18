@@ -29,6 +29,7 @@
 
 # Git
 - [Git Co-Work Flow](./gitNotes/gitcoworkflow.md)
+- [Github workflow](./gitNotes/github-flow.md)
 - [Git Submodule](./gitNotes/submodule.md)
 - [Git Merge Timing](./gitNotes/git-merge-timing.md)
 - [Continuous Integration Strategy](./gitNotes/git-continuous-integration-strategy.md)
