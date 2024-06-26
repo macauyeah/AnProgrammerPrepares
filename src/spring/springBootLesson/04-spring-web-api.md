@@ -1,4 +1,4 @@
-# Spring with web api
+# Spring Boot 04 - 進入 http json api 世代
 本節，我們將會建立一個http服務，提供json api讓程式訪問。
 
 ## 下戴模版
@@ -130,7 +130,7 @@ mvn test
 - @Autowired private MockMvc mockMvc 寫在類的裏面，因為之前有定義了可以模擬 http 的請求，Spring在運行時為大家提供了那個所謂的模擬http client的實例。
 - MockMvcRequestBuilders，則是建造要測試的URL及Header參數。
 - MockMvcResultMatchers，則是檢查回傳的結果是否如遇期的一樣。
-- 為何這個http client叫模擬 - Mock ? 因為在測試用例中，可能連Controller 內部依賴組件也需要進一步模擬，這樣才能把測試目標集中在Controller裏，這也是單元測試的原意。只是本次的例子看不出模擬與否的差別。
+- 為何這個http client叫模擬 - Mock ? 因為在測試用例中，可能連Controller 內部依賴組件也需要進一步模擬，這樣才能把測試目標集中在Controller裏，這也是單元測試的原意。只是本次的例子看不出模擬與否的差別。而且它還模擬了很多東西，例如權限，只是本篇沒有演示怎麼做。權限功能等將在後述的篇章中解紹。
 - MockMvcResultMatchers.jsonPath()，這是用來檢測json的結構是否跟預期一樣。有些網路上的其他例子會簡寫成 jsonPath() ，但因為vscode IDE的自動import功能比較差，筆者還是保留傳統的寫法。
 
 如果大家覺得@SpringBootTest很難，想折衷地把其他測試方法，那麼把 postman / curl好好管理起來，每次修改完程式，都完整地執行一次 postman / curl ，也可以達到測試的效果。只不過大家還是要好好學會整合 postman / curl，知道如何檢測json結構，什麼時候有錯，什麼時候叫測試通過，所以也要花一樣功夫來實現。

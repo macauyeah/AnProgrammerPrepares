@@ -50,3 +50,6 @@
 # Spring boot tutorial
 - [Spring Boot 01 - 萬物始於Spring boot context](./spring/springBootLesson/01-command-line-application.md)
 - [Spring Boot 02 - 快速接入Database的選擇: Spring Data JPA](./spring/springBootLesson/02-spring-data-jpa.md)
+- [Spring Boot 03 - 做好Database的模組化及測試用例](./spring/springBootLesson/03-spring-data-test-case.md)
+- [Spring Boot 04 - 進入http json api 世代](./spring/springBootLesson/04-spring-web-api.md)
+- [Spring Boot 05 - 為 http json api 加入登入要求](./spring/springBootLesson/05-spring-web-spring-data.md)
