@@ -1,5 +1,9 @@
-# AnProgrammerPrepares
+# 程序員的自我修養 A Programmer Prepares
 
-This is the source code of [https://macauyeah.github.io/AProgrammerPrepares](https://macauyeah.github.io/AProgrammerPrepares).
+這個倉庫是 [https://macauyeah.github.io/AProgrammerPrepares](https://macauyeah.github.io/AProgrammerPrepares) 的原始碼，經過mdbook編譯成網頁，再由GithubAction進行發佈。
 
-Welcome to checkout and improve the notes in this repo and submodules.
+這個倉內有兩個子倉庫，針對討論
+- [VM和Docker](https://github.com/macauyeah/VMDockerNotes.git)
+- [git](https://github.com/macauyeah/gitNotes.git)
+
+歡迎大家一起更新及改進內容。
