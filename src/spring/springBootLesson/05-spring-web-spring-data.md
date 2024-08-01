@@ -229,3 +229,6 @@ public class UserServiceImpl implements UserDetailsService {
 ```
 
 上述段落中，筆者省略了UserEntity和UserRepo，它們只是一般的spring-data-jpa概念，有需要可以經文末的連結查看完全原始碼。最需要注意的，是UserEntity的password欄位，在資料庫中是以加密的方式儲存。我們在配匹登入者與資料庫記錄時，也沒有自行檢驗密碼的需要。我們只是在加密過的密碼回傳給Spring Security，Spring框架會自行把登入者輸入的密碼與加密了的密碼作比較。
+
+## Source Code
+[spring boot web api data](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/spring-boot-web-api-data)
