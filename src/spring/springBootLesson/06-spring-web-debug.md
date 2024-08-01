@@ -20,7 +20,13 @@
    - 這是java 開發工具包(vscjava)的其中一員，它的其他插件也可以順帶安裝。
 
 actuator? 
-# api docs - open api
+## 調試工具 - open api / swagger-ui
+如果我們在開發Web http API ，其實都是為了該某個客戶端使用。但如果該客端明白我們的API該怎樣使用，大家總不會逐個連結，自行編寫使用手冊及範例吧。所以就有了open api 和 swagger-ui 的旦生 。
+
+open api，就是一個公認的使用手冊標準，我們只要在spring-web中加入 springdoc-openapi-starter-webmvc-ui 的程式庫，就可以自動為我們的controller 生成 open api 的說明檔。
+
+更強大的是，這個程式庫可以利用剛生成的open api，配上 swagger-ui ，自動測生一個可供測試的頁面。這個頁面可以供碼農們直接操作，也會產生對應的 curl 指令，讓碼農們可以在任何的主機上重複。這樣，那麼是沒有太多解釋的說明文檔也可以使用。
+
 spring init with spring boot web
 
 add maven
