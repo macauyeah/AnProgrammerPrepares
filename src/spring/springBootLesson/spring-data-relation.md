@@ -51,7 +51,7 @@ Spring Data在Java層面的雙向存取，已經做到很方便。但經常坑�
 
 ```java
 @Entity
-public class Parent{
+public class Parent {
     // ... Parent Primay Key
     @OneToMany(mappedBy="parent")
     List<Child> children = new ArrayList<>();
@@ -92,29 +92,78 @@ childDTO.setParent(parentDTO)
 
 註: 其實古早的網頁系統設計，DTO的概念一直存取。只是現在RESTFul API的流行，很多框架已經提向便捷的Json轉換。若然平時只需Json單向存取，筆者還是省略DTO的建立。
 
+## Presist and Casecade
+前述講了一些最基本的關聯概念，但當要正式儲存或刪除，就有些考慮完整性問題。平常我們在處理資料庫的關聯表格時，也需要面Foreign Key的正確性問題。同樣地，Spring Data也有這方面的考量，但它有提份一個很方便的CascadeType選項，可以簡化一些流程。
 
-
-上述如果兩個class的CRUD分開操作，那麼請不要使用Cascade。即是獨立repo save。
-
-但假設你只能存取Parent Repo，你在加入CascadeType.All
+假設你只能存取Parent Repo，那你需要在Parent中，加入CascadeType.All。當repo.save(parent)時，它就會順多把所有child的也一併進行Save，你也不需要有Child Repo的存在。
 ```java
 @OneToMany(mappedBy="parent", cascade = CascadeType.All)
+List<Child> children = new ArrayList<>();
 ```
 
-但CascadeType.All並不代表斷開parent和child的關係時，child會消失。它只是變成child.parent = null。那怕你在資料庫層面，設定not null限制。也是不會令child消失。只會出現runtime exception。
+但在複雜的狀況下，例如你不想在更新parent的情況下，不小心弄到child，特別是經過public web下的API操作，你對web client的資料正確性有存疑，就不要使用CascadeType了。這也是筆者認為在大多數情況下，我們都會把Parent和Child的CRUD分開操作，然後根據需要使用各自的repo save。
 
-若需要在斷開關係後，刪了所有沒有關聯的child，就需要加入orphanRemoval = true
+如果你一定要用CascadeType.ALL (CascadeType.REMOVE)，就要再留意刪除的問題。為什麼？因為刪除 parent，其實指的是某個parent不再存在，但不代表child也要一起刪除，child的parent連結可以變為null，也有重新連結其他parent的可能。
+
+如果大家確定需要共同刪除，就可以用CascadeType.ALL 或 CascadeType.REMOVE。
+
+還有一個新的選擇，orphanRemoval = true，也有類似效果。
 ```java
+@OneToMany(mappedBy="parent", cascade = CascadeType.REMOVE)
+List<Child> children = new ArrayList<>();
+// or
 @OneToMany(mappedBy="parent", orphanRemoval = true)
-@OneToMany(mappedBy="parent", cascade = CascadeType.All, orphanRemoval = true)
+List<Child> children = new ArrayList<>();
+// or
+@OneToMany(mappedBy="parent", cascade = CascadeType.REMOVE, orphanRemoval = true)
+List<Child> children = new ArrayList<>();
+```
+筆者測試過，混著用也是可以的。若大家看過其他教程，可能會覺得orphanRemoval = true 和 CascadeType 總是一起出現，但它們其實是分別操作的。單獨使用orphanRemoval = true，有時候則是為了不會出現無主的child，但這不代表parent和child的想要同步更新。
+
+# JPA Entity 的生命週期
+Spring Data跟傳統的資料庫Selete，Create，Update，Delete SQL 語句有所不同。也就是這個不同，它的CascadeType比資料庫的Cascade Update和Cascade Delete更強大。
+
+Spring Data 預設其實是使用 jakarta.persistence.EntityManager，每個Entity主要分為四個狀態
+- Transient / New - 不在EntityManager的掌控中
+- Managed - 在EntityManager的掌控中，將會在下次flush時，變成sql create或update statement
+- Detached - 脫離EntityManager的掌控，不受flush影響
+- Removed - 在EntityManager的掌控中，將會在下次flush時，變成sql delete statement
+
+在Spring Data / Jpa 以前，我們若要直接操作Hibernate，經常見到persist, remove的寫法
+
+```java
+entityManager.persist(entity);
+entityManager.remove(entity);
+
+entityManager.detach(entity);
+entityManager.merge(entity);
 ```
 
-大家看其他例子，可能會覺得orphanRemoval = true 和 CascadeType.All 總是一起出現，但它們其實是分別操作的。單獨使用orphanRemoval = true，有時候是為了不會不小心省生副作用。例如Parent 要經更新，但Child資訊不全，那就不要使用CascadeType.All。
+其實persist就是把處於Transient、Removed的entity，改為Managed。而remove就是把Managed改為Removed。detach，merge也類似，就是Managed，Detached之間互換。
 
-注意，CascadeType不是資料庫的Cascade操作，沒有 Create , Update 之分。它指的是Entity被管理的狀態。可以分為
-- ALL （簡易包括下列所有狀態）
-- PERSIST （將要存入資料庫，可能是create update）
-- MERGE （轉為被管理狀態)
-- REMOVE （將要從資料庫刪除）
-- REFRESH（將要從資料庫重新讀取）
-- DETACH （轉為不受管理狀態）
+EntityManager最強大的是，它可以讓程序員不需要再為Managed狀態下的entity操心，它會自動判別下次flush，應該create還是update，如果完全沒有改動的，連update也不會執行。
+
+(註，flush和commit也有不同，flush就是從java寫到資料庫中，在資料庫commit前，還可以使用rollback放棄。)
+
+而Spring Data，則是進一步簡化，它把persist改為save，remove改為delete，然後自動選擇flush的時機。
+
+## CascadeType
+在解釋完Entity 的生命週期後，終於可以回到CascadeType了。這裏的CascadeType不是資料庫的Cascade操作，其實它是指EntityManager的狀態操作是否有傳遞關係。亦即是，persist(parent)時，要不要連同child也一起操作?
+
+我們查看 CasecadeType 的原始碼，就可以發現可以被傳遞的操作共有以下這些
+- PERSIST
+- MERGE
+- REMOVE
+- REFRESH
+- DETACH
+- ALL (以上全部)
+
+這裏的 CasecadeType.PERSIST ，跟資料庫的 Cascade Update 是不一樣的。資料庫裏的 Cascade Update，是指當 Parent 的 Primary Key 有變，對應child的 Foreign Key也一起變。但因為 JPA Entity 的機制， Parent 的 Primary Key 不可以改變，理論上不會發生類似資料庫的 Cascade Update，頂多有 Cascade Delete。 CasecadeType.PERSIST 就像之前述的生命週期解說一樣， 把 parent和 child 一起拉到受管理的狀態。
+
+
+註: CascadeType.REMOVE有點尷尬，似乎有更特別的使用規範。筆者測試過，在某些情況下，CascadeType.REMOVE無法處理ForeignKey問題，又或者是，刪除的順序不對。詳見 [spring boot data deletion](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/deletion)
+
+
+# Reference
+- [entity-lifecycle-model](https://thorben-janssen.com/entity-lifecycle-model/)
+- [spring boot data deletion](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/deletion)
