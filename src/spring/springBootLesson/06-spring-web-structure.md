@@ -25,3 +25,19 @@ controller, service, test what,
 
 # inheritance?
 no test if inheritance?
+
+
+The following code-block will be rendered as a Mermaid diagram:
+
+```mermaid
+flowchart LR
+  A --> B
+```
+
+```mermaid
+graph TD;
+    A-->B;
+    A-->C;
+    B-->D;
+    C-->D;
+```

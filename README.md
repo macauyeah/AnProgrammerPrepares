@@ -7,3 +7,10 @@
 - [git](https://github.com/macauyeah/gitNotes.git)
 
 歡迎大家一起更新及改進內容。
+
+## 本地編譯 Local build 
+```bash
+sudo apt-get update && sudo apt-get install cargo
+cargo install mdbook mdbook-mermaid
+mdbook build .
+```
