@@ -5,6 +5,7 @@
 # Docker
 - [Docker的基本概念 - 中文](./VMDockerNotes/DockerConcept101CN.md)
 - [Build Command Line Application Docker Image - 中文](./VMDockerNotes/BinaryAsDockerImageCN.md)
+- [Docker Tag 命名](./VMDockerNotes/DistributionRegistry.md)
 - [Deploy Docker Cluster - 中文](./VMDockerNotes/DeployDockerClusterCN.md)
 - [Swarm mode 上線 - 中文](./VMDockerNotes/SwarmModeCommandCN.md)
 - [Swarm mode 上線 2 - 中文](./VMDockerNotes/SwarmModeUndeployLeaveCN.md)
@@ -32,7 +33,7 @@
 - [Continuous Integration Strategy](./gitNotes/git-continuous-integration-strategy.md)
 - [Git Mono Repository](./gitNotes/git-mono-repo.md)
 - [Git Worktree](./gitNotes/git-worktree.md)
-
+- [Git 修改歷史記錄](./gitNotes/git-revise-history.md)
 ---
 
 # Spring boot
