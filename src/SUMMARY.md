@@ -57,7 +57,8 @@
 - [Spring Boot 04 - 進入http json api 世代](./spring/springBootLesson/04-spring-web-api.md)
 - [Spring Boot 05 - 為 http json api 加入登入要求](./spring/springBootLesson/05-spring-web-spring-data.md)
 - [Spring Boot 06 - Spring Boot Web 調試工具](./spring/springBootLesson/06-spring-web-debug.md)
-- [structure](./spring/springBootLesson/06-spring-web-structure.md)
+- [Spring Boot 07 - Spring Boot Web 加入限制](./spring/springBootLesson/07-spring-web-api-validate.md)
+- [draft structure](./spring/springBootLesson/spring-web-structure.md)
 
 # vue js
-- [time attact](./vuejs/TimeAttack.md)
+- [draft time attact](./vuejs/TimeAttack.md)
