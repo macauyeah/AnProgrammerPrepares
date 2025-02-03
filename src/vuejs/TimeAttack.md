@@ -84,12 +84,105 @@ update src/router/index.ts
 if you go back to Hash Mode, confirm that you are not using backend routing
 
 test producion build
+```bash
+npm run lint
+npm run format
+npm run build
+```
+
+config openapi generator
+```bash
+npm install --save-dev @openapitools/openapi-generator-cli
+npx openapi-generator-cli version-manager set 7.11.0
+```
+
+revise package.json add openapi command
+```json
+{
+  "scripts": {
+    "openapi": "openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-axios --additional-properties=withSeparateModelsAndApi=true,modelPackage=model,apiPackage=api -o src/openapi/"
+  }
+}
+```
+
+npm install axios
+npm install vue-i18n
+
+```diff
+# src/main.ts
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
++import i18n from "./i18n/"
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
++app.use(i18n)
+
+app.mount('#app')
+
+
+# src/i18n/index.ts
++import { createI18n } from 'vue-i18n'
++import zhTwJson from "./locales/zh-tw.json"
++
++const i18n = createI18n({
++  locale: 'zh-tw',
++  globalInjection: true,
++  messages: {
++    'zh-tw': zhTwJson
++  }
++})
++
++export default i18n
+
+# src/i18n/locales/zh-tw.json
++{
++  "app": {
++    "name": "YOUR APP NAME"
++  }
++}
+```
+
+npm install element-plus --save
+
+```diff
+# src/main.ts
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import i18n from "./i18n/"
+
++import ElementPlus from 'element-plus'
++import 'element-plus/dist/index.css'
++import { zhTw } from 'element-plus/es/locales.mjs'
+
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
+app.use(i18n)
++app.use(ElementPlus, { locale: zhTw })
+
+app.mount('#app')
+```
 
 # draft
-config vue router
+config vue router (route guard)
+config vue axios interceptor
 config vue i18n
 config vue pinia
-config vue axios interceptor
 config vue element-plus
 config openapi generator
 config vue validator (vuelidate)
