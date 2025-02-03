@@ -1,0 +1,280 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Create custom Ubuntu cloud-img with Packer - 中文 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="notes-about-customizing-cloud-image-for-multipass"><a class="header" href="#notes-about-customizing-cloud-image-for-multipass">Notes about customizing cloud image for Multipass</a></h1>
+<h2 id="前言"><a class="header" href="#前言">前言</a></h2>
+<p>原本筆者只是想做docker cluster，但因為在實機中建VM極其麻煩，所以就研究了好一陣子如何快速起VM。</p>
+<p>以下是筆者有初步研究，但未有完全實行的方向。</p>
+<ul>
+<li>Hyper-V (2023-08-17 更新)
+<ul>
+<li>有預設的Ubuntu template，但只有ubuntu desktop版，沒有server版。Desktop gui顯得浪費資源</li>
+<li>clone VM很費時，需要通過Export，Import達到Clone效果。若好好地處理各VM的HDD存放位置，Export，Import也不錯。</li>
+<li>沒有自帶的cloud-init，需要自己想辦法做一些Clone後置的處理。</li>
+<li>若要走cloud image + cloud-init，可能需要<a href="https://learn.microsoft.com/en-us/windows-hardware/get-started/adk-install">Windows ADK</a>，並配合qemu做轉換。</li>
+</ul>
+</li>
+<li>Windows Subsystem Linux
+<ul>
+<li>起VM很方便，但同一個Linux version只有一個instance</li>
+<li>可能需要需要通過Export，Import Instance來達到Clone效果</li>
+<li>可能沒有fix ip。可能對於起docker swarm不利。</li>
+</ul>
+</li>
+<li>Virtual box (2024/01/31 更新)
+<ul>
+<li>沒有Ubuntu template</li>
+<li>若要clone的話就變得跟Hyper-V差不多。</li>
+<li>Virtual Box, Hyper-V應該要跟Vagant結合，這樣可以取代multipass + packer的組合。</li>
+<li>Vagent原本就提供了很多Image Template，官方稱為Box，但主要以供給Virtual Box使用為主。若你需要於Hyper-V執行特定的Linux，可能需要找一些第三方提供的Image Template。</li>
+</ul>
+</li>
+</ul>
+<p>經過一輪資料搜集，發現了一個Ubuntu multipass engine，聲稱可以跨平台快速起VM。裏面有一些很吸引的功能，可以自己建立images、使用固定IP。</p>
+<p>那怕即使是沒有snapshot，在自定義images的配合下預裝docker，要隨時加減cluster node都是一件容易的事。</p>
+<h1 id="ubuntu-multipass"><a class="header" href="#ubuntu-multipass">Ubuntu multipass</a></h1>
+<h2 id="參考軟硬件需求"><a class="header" href="#參考軟硬件需求">參考軟硬件需求</a></h2>
+<p>醜話說在前頭。經過一輪測試，multipass最大的問題，就是custom image、fix IP都只能在ubuntu中才能使用。以下是筆者成功實現的軟硬件架構。</p>
+<ul>
+<li>你可以使用實體主機，BIOS提供Virtualization，在實機上安裝Ubuntu，最後行起multipass。
+<ul>
+<li>參考配置: 實機:CPU 10 core, 32G RAM, 1T HDD</li>
+</ul>
+</li>
+<li>你可以使用實機主機，BIOS提供Virtualization，在實機上安裝Windows 10 和Hyper-V，並在Hyper-V上安裝ubuntu，並對該Ubuntu提供ExposeVirtualizationExtensions。
+<ul>
+<li>參考配置: 實機:CPU 10 core, 32G RAM, 1T HDD；VM Ubuntu: CPU 4 core，10G RAM，128G HDD</li>
+</ul>
+</li>
+</ul>
+<h2 id="重點"><a class="header" href="#重點">重點</a></h2>
+<p>詳細的Proof of Concept，筆者記錄了在</p>
+<ul>
+<li><a href="https://github.com/macauyeah/ubuntuPackerImage">Packer template git repo link</a>
+<ul>
+<li><a href="https://github.com/macauyeah/ubuntuPackerImage/blob/main/template.pkr.hcl">Packer template.pkr.hcl link</a></li>
+<li><a href="https://github.com/macauyeah/ubuntuPackerImage/blob/main/initDockerCluster.sh">Multipass run packer image script link</a></li>
+</ul>
+</li>
+<li><a href="MultipassStaticIpCN.html">Multipass Static IP script snippet</a></li>
+</ul>
+<p>在這裏就補充一些重點。</p>
+<ul>
+<li>packer是使用cloud-init和qemu的技術，行起template中指定的cloud image (在筆者的例子中就是ubuntu-22.04-server-cloudimg-amd64.img)</li>
+<li>大家可以定義image行起後進行一些操作，而那些操作都是經過qemu vnc、ssh進去操作的。</li>
+<li>操作完後就會直接儲存當時的image。所以在操作結束之前，盡可能地刪cache或刪去不要的user / group settings。</li>
+<li>最後生成的image，還是一個cloud image。若要再運行它，必需要使用支援cloud-init的VM來讀取。</li>
+<li>cloud-init是用來指定初次運行時要設定的事，例如:hdd size, user account password, ssh key import等。</li>
+<li>使用工具cloud-localds可以生成一個seed.img，這樣qemu也可以cloud-init。</li>
+<li>Hyper-V應該也可以經過類似方式，進行cloud-init，但筆者未有去實測。如有更簡便的方法請告知。</li>
+<li>multipass預設就已經有cloud-init，在ubuntu就可以直接執行。</li>
+<li>multipass也可以設定不同的cloud-init參數。</li>
+</ul>
+<h2 id="成品"><a class="header" href="#成品">成品</a></h2>
+<p>最後筆者就選擇了用packer用來預裝docker，經mulitpass無腦起VM，再使用 <a href="https://github.com/macauyeah/ubuntuPackerImage/blob/main/initDockerCluster.sh">shell script</a> 對多個node設定docker，達到即時起docker node的功能。這樣就減省了VM的安裝時間，也省去了docker的安裝問題。</p>
+<p>說到底，如果只想測試docker cluster，其實windows, macOS中的multipass也可以實現相同的功能。因為安裝docker那些都可以經過shell script自動化，只是每次重複操作，都變得相當慢。另外，因為multipass在windows, macOS不支援fix ip，對於指定docker cluster interface又會再多一重功夫。</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/SteamDeckWithPodmanCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/MultipassStaticIpCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/SteamDeckWithPodmanCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/MultipassStaticIpCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

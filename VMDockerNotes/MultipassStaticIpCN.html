@@ -1,0 +1,265 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Multipass with static IP - 中文 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="在ubuntu-server-2204上安裝multipass並配置固定ip的注意事項"><a class="header" href="#在ubuntu-server-2204上安裝multipass並配置固定ip的注意事項">在Ubuntu Server 22.04上安裝Multipass並配置固定IP的注意事項</a></h1>
+<p>安裝Multipass很容易的，但配置固定IP就不是了。</p>
+<p>另一個問題是官方文件都認為設定固定IP不是Multipass的範圍，它不想講太多。 但根據我的經驗，它的<a href="https://multipass.run/docs/configure-static-ips">官方例子</a>在Ubuntu Server 22.04並不能用。 (它可能可以在Ubuntu桌面上運行吧，但我不確定。)</p>
+<p>以下是我在不斷踩坑後找到的解決方案。</p>
+<h2 id="通過snap安裝multipass"><a class="header" href="#通過snap安裝multipass">通過snap安裝Multipass</a></h2>
+<p>簡單，無腦</p>
+<pre><code>sudo snap install multipass
+</code></pre>
+<h2 id="在主機上配置virtual-bridge"><a class="header" href="#在主機上配置virtual-bridge">在主機上配置Virtual Bridge</a></h2>
+<p>很重要，很重要，很重要，在所有操作之前停止multipass。然後使用"network-manager"包安裝命令工具"nmcli"。</p>
+<pre><code>sudo snap stop multipass.multipassd
+sudo apt-get update &amp;&amp; sudo apt-get install network-manager
+</code></pre>
+<p>修改NetworkManager配置，以便它可以管理所有bridge interface。預設情況下，有很多類型的接口它都不管的。您需要在'unmanaged-devices'行的末尾添加 "<em><strong>,except:type:bridge</strong></em>"。</p>
+<pre><code>sudo vim /usr/lib/NetworkManager/conf.d/10-globally-managed-devices.conf
+</code></pre>
+<p>NetworkManager Config Example</p>
+<pre><code class="language-conf">[keyfile]
+unmanaged-devices=*,except:type:wifi,except:type:gsm,except:type:cdma,except:type:bridge
+</code></pre>
+<p>然後重新運行NetworkManager.service，並添加具有固定IP範圍的Bridge network interface。</p>
+<pre><code>sudo systemctl reload NetworkManager.service 
+sudo nmcli connection add type bridge con-name localbr ifname localbr \
+    ipv4.method manual ipv4.addresses 10.13.31.1/24
+</code></pre>
+<p>現在，如果您使用<code>ip a</code>檢查主機所有網卡，新network interface應該已經出現（但有機會是處於關閉狀態）。</p>
+<h2 id="將multipass切換到lxd"><a class="header" href="#將multipass切換到lxd">將Multipass切換到lxd</a></h2>
+<p>Multipass網絡功能目前只在<em><strong>lxd</strong></em>後端上提供。</p>
+<pre><code class="language-bash">sudo snap start multipass.multipassd
+# 在轉driver前，先刪掉所有VM。轉了之後就無法管控之前的VM
+multipass delete --all &amp;&amp; multipass purge
+multipass set local.driver=lxd
+</code></pre>
+<p>以下指令與官方教學相同。</p>
+<h2 id="在vm中創建額外的網卡"><a class="header" href="#在vm中創建額外的網卡">在VM中創建額外的網卡</a></h2>
+<p>在創建新的VM實例時創建額外的網卡。</p>
+<pre><code class="language-bash"># 建立新VM時指定它的網卡和mac地址
+multipass launch --name test1 --network name=localbr,mode=manual,mac="52:54:00:4b:ab:cd"
+
+# 修改設定檔，對應mac地址使用固定IP
+multipass exec -n test1 -- sudo bash -c 'cat &lt;&lt; EOF &gt; /etc/netplan/10-custom.yaml
+network:
+    version: 2
+    ethernets:
+        extra0:
+            dhcp4: no
+            match:
+                macaddress: "52:54:00:4b:ab:cd"
+            addresses: [10.13.31.13/24]
+EOF'
+
+# 重啟VM實例網絡。
+multipass exec -n test1 -- sudo netplan apply
+
+# 然後，您應該在VM上看到固定IP列表。
+multipass info test1
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/MultipassPackerCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/MultipassDockerClusterCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/MultipassPackerCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/MultipassDockerClusterCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

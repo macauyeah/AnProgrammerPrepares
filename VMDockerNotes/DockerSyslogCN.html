@@ -1,0 +1,261 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Docker with Syslog - 中文 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="docker-syslog"><a class="header" href="#docker-syslog">docker syslog</a></h1>
+<p>平常大家在做單機app時，寫log有很多選擇，最簡單就是寫在檔案中。但在docker container裏面，寫檔案時要注意怎樣保留log檔，避免因為重建container時不見了。</p>
+<p>docker 大部份官方預設image，都把log導向至stdout和stderr。這是方便docker做管理，也方便大家使用統一的docker logs指令來查看，即使到了Swarm mode底下，docker service logs也是同樣原理，使用差異不大，頂多就是不保證log的實時性。</p>
+<p>如果網路延遲不計較的話，最大問題也是logs怎樣保存的做法。預設就是container刪走的時候，logs也會一借走。單機模式下，沿用最普遍的方法寫log的做法不是不可行，只是考慮到在極端情況下，同一個node(節點)中，有可能同時運作同一個service(服務)的多個分身(replica)，這裏它們寫檔案時就有機會互相搶佔。</p>
+<p>筆者認為，比較合理的是外部提供的服務，例如syslog，把寫檔的操作交給節點的Host OS處理。然後就保證好每筆log都會是一條完整的記錄。</p>
+<p>以下就以linux Host裏面的syslog，為大家簡介一下設定的步驟。</p>
+<h2 id="設定docker-導向-syslog"><a class="header" href="#設定docker-導向-syslog">設定docker 導向 syslog</a></h2>
+<p>把該主機的docker daemon (<code>/etc/docker/daemon.json</code>)，設定使用syslog driver，並以特定的方式編寫syslog tag。</p>
+<pre><code class="language-json">//file: /etc/docker/daemon.json
+{
+  "log-driver": "syslog",
+  "log-opts": {
+    "tag": "dockercontainer/{{.ImageName}}/{{.Name}}/{{.ID}}"
+  }
+}
+</code></pre>
+<p>無腦設定已完成，重啟docker就可以了。</p>
+<pre><code class="language-bash">sudo systemctl restart docker
+</code></pre>
+<p>但為了日後管理方便，能把docker log放進獨立的一個檔案中，會更易找問題。所以我們可以進一步設定syslog。我們以Ubuntu 22.04為例，可以在/etc/rsyslog.d/下增加一個設定檔(<code>/etc/rsyslog.d/*.conf</code>)，指定看到syslog tag以dockercontainer為首的記錄，都要獨立抽出來。</p>
+<pre><code class="language-conf"># file: /etc/rsyslog.d/51-docker.conf
+:syslogtag,startswith,"dockercontainer" -/var/log/dockercontainer.log
+</code></pre>
+<p>為免有檔案權限問題，手動指定檔案的所有權後，才正式重啟syslog。然後所有相關記錄都會寫在/var/log/dockercontainer.log</p>
+<pre><code class="language-bash">sudo touch /var/log/dockercontainer.log
+sudo chown syslog:adm /var/log/dockercontainer.log
+sudo systemctl restart rsyslog
+</code></pre>
+<h2 id="滾滾滾滾滾動的log檔"><a class="header" href="#滾滾滾滾滾動的log檔">滾滾滾滾滾動的log檔</a></h2>
+<p>檔案一天一天地長大，如果可以，還是自動清掉太舊的記錄為妙。Linux Syslog，通常也會配著logrotate使用。</p>
+<p>筆者亦以Ubuntu 22.04為例子，做了個最簡單的自動滾Log功能。目標就是當log檔案大於1M後，就要重開log檔。舊的log檔最多保留7份，多了就刪掉最舊的。</p>
+<pre><code class="language-conf"># file: /etc/logrotate.d/rsyslog-dockercontainer
+/var/log/dockercontainer.log
+{
+        rotate 7
+        size 1M
+        missingok
+        notifempty
+        compress
+        delaycompress
+        sharedscripts
+        postrotate
+                /usr/lib/rsyslog/rsyslog-rotate
+        endscript
+}
+</code></pre>
+<p>加了設定後，什麼都不用重啟，因為它是Ubuntu 的排程動作，到執行時就會以最新的設定檔執行，詳見<code>/etc/cron.daily/logrotate</code>.</p>
+<p>有需要手動測試的話，需要手動呼叫<code>/usr/sbin/logrotate</code>。加入-d參數後，會被視為debug mode，這是官方的說法，但因為debug mode沒有執行效果，更加像是linux中常見的dry run mode。</p>
+<pre><code class="language-bash"># dry run only, no effect
+sudo /usr/sbin/logrotate -d /etc/logrotate.conf
+# do the real task and show verbose output
+sudo /usr/sbin/logrotate -v /etc/logrotate.conf
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/DockerWithNfsCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../gitNotes/gitcoworkflow.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/DockerWithNfsCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../gitNotes/gitcoworkflow.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

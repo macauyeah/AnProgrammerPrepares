@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Docker with NFS file store - 中文 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="自己架設docker的共享儲存空間"><a class="header" href="#自己架設docker的共享儲存空間">自己架設Docker的共享儲存空間</a></h1>
+<p>Docker很好用，在單機環境下真的很好用。Docker原本的設計，是為了快速迭代而設計成Image的。在一般設定下，每次新建或重建container，都會根據Image重設一下各方面的環境，包括儲存空間。重設CPU，Memory，大家都很易理解，但重設儲存空間，真的不是每一個使用情況都可以這樣。</p>
+<p>又或者說，未必所有使用情況都會有一個第三方的儲存空間可以用。所以良心的Docker在單機環境下也有提供bind mount或是docker named volume，作為可以長期保存，不受container生死的影響，以達到長期存在Data的存在。</p>
+<h2 id="單機-儲存空間"><a class="header" href="#單機-儲存空間">單機-儲存空間</a></h2>
+<p>單機情況下很簡單，就用一個docker compose做例子</p>
+<pre><code>services:
+  nginx:
+    image: nginx:1.23
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./html/:/usr/share/nginx/html/
+      - nginxlogs:/var/log/nginx/
+
+volumes:
+  nginxlogs:
+</code></pre>
+<p>其中html就是一個bind mount，而nginxlogs就是一個docker named volume，兩者都可以長期保存data，除非各位自己手動刪除，否則不會因為container的興亡而不見了。</p>
+<p>但有兩個很重要的分別</p>
+<ul>
+<li>bind mount，直接跟host os連接，實際上是每次folder有更新，docker都要同步host和container之間的資料。
+<ul>
+<li>bind mount在linux下很暢順，因為大部份docker image/container原本就是linux engine，所以folder mount真的可以互通。</li>
+<li>bind mount在windows / mac下，就會不斷抄資料。面對大量檔案，例如node_module，就會有速度上的問題</li>
+</ul>
+</li>
+<li>docker named volume，就是docker 分離一些獨立空間，然後再綁到container上
+<ul>
+<li>相對bind mount，即使在windows / mac下，都沒有那個速度上的問題。筆者猜測，即使是獨立空間，其實本身都已經限定在linux enginx下，所以沒有需要抄資料。</li>
+<li>但在windows / mac下，因應docker 底層建立Linux VM的技術不同，你可能沒法在windows / mac預設環境下直接讀取docker named volume。</li>
+<li>若要讀取docker named volume，最好的做法，還是連上docker container，然後用docker cp 來抄回資料。一但抄資料，其實都會有速度上問題，不過docker cp是手動決定何時做的，不做docker cp，其實container也是可以用。</li>
+</ul>
+</li>
+</ul>
+<h2 id="cluster-docker-swarm---儲存空間"><a class="header" href="#cluster-docker-swarm---儲存空間">Cluster (Docker Swarm) - 儲存空間</a></h2>
+<p>雖然良心的bind mount和named volume解決了單機上的儲存問題，但到了cluster環境，就沒有可以跨機同步儲存空間的做法，要做就自己建立。</p>
+<p>筆者也稍為研究了一下同步的問題，不過對技術真的很有要求。所以退而求其次，筆者還是選擇簡單的第三方儲存空間。就是做一個可以分享存取的NAS。</p>
+<h3 id="建立nfs"><a class="header" href="#建立nfs">建立nfs</a></h3>
+<p>linux下要安裝nfs其實很簡單，不過要注意資料夾和防火牆權限。</p>
+<p>以下安裝教學以ubunut 22.04為例，記得把下面的YOUR_DOCKER_NODE_ADDRESS_RANGE轉為你的真實IP段落</p>
+<pre><code>apt update &amp;&amp; apt install nfs-kernel-server ufw -y
+
+mkdir -p /mnt/nfs_share
+chown -R nobody:nogroup /mnt/nfs_share/
+chmod 777 /mnt/nfs_share/
+
+echo "/mnt/nfs_share YOUR_DOCKER_NODE_ADDRESS_RANGE/24(rw,sync,no_subtree_check)" &gt;&gt; /etc/exports
+
+exportfs -a
+
+systemctl restart nfs-kernel-server
+
+ufw allow from YOUR_DOCKER_NODE_ADDRESS_RANGE/24 to any port nfs
+ufw allow ssh
+ufw enable
+</code></pre>
+<h3 id="修改docker-compose"><a class="header" href="#修改docker-compose">修改docker compose</a></h3>
+<p>最後，你在原來的docker-compose的docker volume上加driver_opts就大功告成。</p>
+<p>記得把下面的YOUR_NFS_IP轉為你的真實IP</p>
+<pre><code>volumes:
+  nginxlogs:
+    driver_opts:
+      type: "nfs"
+      o: "nfsvers=4,addr=YOUR_NFS_IP,nolock,soft,rw"
+      device: ":/mnt/nfs_share/nginxlogs"
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/VmwareDockerClusterCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/DockerSyslogCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/VmwareDockerClusterCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/DockerSyslogCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

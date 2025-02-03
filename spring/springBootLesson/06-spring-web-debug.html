@@ -1,0 +1,300 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Spring Boot 06 - Spring Boot Web 調試工具 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="spring-boot-06---spring-boot-web-調試工具"><a class="header" href="#spring-boot-06---spring-boot-web-調試工具">Spring Boot 06 - Spring Boot Web 調試工具</a></h1>
+<p>之前兩節，都一直在講怎樣寫code，也介紹了Test Case的好。若為初次接觸，Spring有很多設定需要摸索，若開始時就設定錯誤，對不少人來講都會有很大打擊。在這裏，筆者就介紹一些vscode和spring的工具，可以讓IDE多幫忙一下，減少走歪路的機會。</p>
+<h2 id="vscode插件"><a class="header" href="#vscode插件">vscode插件</a></h2>
+<p>以下兩個插件，都在於提示用戶設定。</p>
+<ul>
+<li>Spring Boot Dashboard (vscjava.vscode-spring-boot-dashboard)
+<ul>
+<li>可以那它來運作spring boot app，省去找尋main 位置的麻煩</li>
+<li>綜覽整個程式中的所有Bean (Bean是一個很重要的元素，日後會再提及)</li>
+<li>若程式為Spring boot web，可以顯示所 http endpoint。</li>
+</ul>
+</li>
+<li>Spring Boot Tools (vmware.vscode-spring-boot)
+<ul>
+<li>檢查設定檔的設定值有沒有寫錯 （application*.properties， application*.yml）</li>
+<li>綜覽檔案中的有以@為首的與spring相關的元素（檔案很大時就會有用）</li>
+<li>可以在IDE運行spring時，查看@元素的bean資訊 (not works ?, 加了actuator也是沒有看見)</li>
+</ul>
+</li>
+<li>Spring Initializr（vscjava.vscode-spring-initializr）
+<ul>
+<li>經網絡初始化spring 專案的依賴引用設定</li>
+</ul>
+</li>
+<li>Maven for Java (vscjava.vscode-maven)
+<ul>
+<li>若大家在使用Spring Initializr時，選取了maven作管理工具，那麼這插件就可以在後續幫忙更新引用。</li>
+<li>若專案的Spring 及㡳層引用有變，vscode也需要它來引用更新。</li>
+<li>這是java 開發工具包(vscjava)的其中一員，它的其他插件也可以順帶安裝。</li>
+</ul>
+</li>
+</ul>
+<h2 id="調試工具---open-api--swagger-ui"><a class="header" href="#調試工具---open-api--swagger-ui">調試工具 - open api / swagger-ui</a></h2>
+<p>如果我們在開發Web http API ，其實都是為了該某個客戶端使用。但如果該客端明白我們的API該怎樣使用，大家總不會逐個連結，自行編寫使用手冊及範例吧。所以就有了open api 和 swagger-ui 的誕生 。</p>
+<p>open api，就是一個公認的使用手冊標準，我們只要在spring-web中加入 springdoc-openapi-starter-webmvc-ui 的程式庫，就可以自動為我們的controller 生成 open api 的說明檔。</p>
+<p>更強大的是，這個程式庫可以利用剛生成的open api，配上 swagger-ui ，自動生成一個可供測試的頁面。這個頁面可以供碼農們直接操作，也會產生對應的 curl 指令，讓碼農們可以在任何的主機上重複。這樣，那麼是沒有太多解釋的說明文檔也可以使用。</p>
+<p>做法很簡單，在pom.xml中加入依賴。</p>
+<pre><code class="language-xml">    &lt;dependency&gt;
+        &lt;groupId&gt;org.springdoc&lt;/groupId&gt;
+        &lt;artifactId&gt;springdoc-openapi-starter-webmvc-ui&lt;/artifactId&gt;
+        &lt;version&gt;2.5.0&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
+<p>然後我們就可以加入Controller，運行 Spring 後，我們可以在 <a href="http://localhost:8080/swagger-ui/index.html">http://localhost:8080/swagger-ui/index.html</a> 找到 swagger 的頁面，然後就可以在 ui 上測試API了。</p>
+<h3 id="躲在proxy背後的-swagger"><a class="header" href="#躲在proxy背後的-swagger">躲在Proxy背後的 swagger</a></h3>
+<p>如果你跟筆者一樣，使用 code-server 或 github codespaces ，你就不能很隨意地連接到 8080 端口，只能經過Http Proxy去訪問。這樣 open api的原有的設定就不合用了。</p>
+<p>這時我們需要自行修改 open api 的 bean，加入我們真正的根路徑。然後筆者使用 code-server，而IDE只會在port 9000上執行，它對外的前置路徑會是 <a href="http://localhost:9000/proxy/8080/">http://localhost:9000/proxy/8080/</a>。</p>
+<pre><code class="language-java">@Bean
+public OpenAPI customOpenAPI() {
+    Server server = new Server();
+    server.setUrl("http://localhost:9000/proxy/8080/");
+    return new OpenAPI().servers(List.of(server));
+}
+</code></pre>
+<p>現在訪問 <a href="http://localhost:9000/proxy/8080/swagger-ui/index.html">http://localhost:9000/proxy/8080/swagger-ui/index.html</a>，還是會有一些問題，你會看到 "Failed to load remote configuration." 。但你此時可以在 "explore" 搜尋欄位內貼上 <a href="http://localhost:9000/proxy/8080/v3/api-docs">http://localhost:9000/proxy/8080/v3/api-docs</a>，再一次搜尋檔案，就回復正常了。</p>
+<p>註：如果你熟習Nginx這類Reverse Proxy 的概念，你的環境可以直接修改 Request Header，可以在Proxy中加入X-Forwarded-*，就不用煩惱寫Java Bean了，也不用手動在explore裏重新修正api-docs的位置。詳見 <a href="https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-starter-webmvc-ui-behind-a-reverse-proxy">https://springdoc.org/index.html#how-can-i-deploy-springdoc-openapi-starter-webmvc-ui-behind-a-reverse-proxy
+</a></p>
+<h3 id="controller的繼承"><a class="header" href="#controller的繼承">Controller的繼承</a></h3>
+<p>Spring Controller的 @ 標記 (Annotation) ，其實支援繼承的。經Spring 生成的 api docs，也有如何效果。例如以下程式碼</p>
+<pre><code class="language-java">public class ParentController {
+    @GetMapping("/postfix")
+    public String postfix(){
+        return "this is postfix";
+    }
+}
+
+@RestController
+@RequestMapping("/api")
+public class ChildController extends ParentController {
+    @GetMapping("/direct")
+    public String directCall() {
+        return "direct result";
+    }
+}
+</code></pre>
+<p>在ChildController的實例中，它會有兩個API，分別是</p>
+<ul>
+<li>/api/direct</li>
+<li>/api/prefix</li>
+</ul>
+<p>它支援Java Function Overwrite（覆寫），但不能改 @ 標記，以下就是一個錯的例子</p>
+<pre><code class="language-java">@RestController
+@RequestMapping("/api")
+public class ChildController extends ParentController {
+    @GetMapping("/Overwrite") // 把這個 @ 行刪了才能正常執行
+    public String postfix(){
+        return "this is Overwrite";
+    }
+}
+</code></pre>
+<h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
+<p><a href="https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/spring-boot-web-api-doc">spring boot web api doc</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../spring/springBootLesson/05-spring-web-spring-data.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../spring/springBootLesson/07-spring-web-api-validate.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../spring/springBootLesson/05-spring-web-spring-data.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../spring/springBootLesson/07-spring-web-api-validate.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

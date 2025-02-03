@@ -1,0 +1,366 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>draft time attact - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <p>install vue3</p>
+<pre><code class="language-bash">npm create vue@latest
+cd &lt;your-project-name&gt;
+npm install
+npm run dev
+</code></pre>
+<p>update vite.config.ts</p>
+<pre><code class="language-js">import { fileURLToPath, URL } from 'node:url'
+import type { UserConfig, ConfigEnv } from 'vite' // add
+import { defineConfig, loadEnv } from 'vite' // modify
+import vue from '@vitejs/plugin-vue'
+import VueDevTools from 'vite-plugin-vue-devtools'
+
+export default defineConfig(({ mode }: ConfigEnv): UserConfig =&gt; { // modify
+  const env = loadEnv(mode, process.cwd()) // add
+  return { // add return statement, properties build, server, base
+    plugins: [
+      vue(),
+      VueDevTools()
+    ],
+    resolve: {
+      alias: {
+        '@': fileURLToPath(new URL('./src', import.meta.url))
+      }
+    },
+    build: {
+      outDir: 'somewhere',
+      emptyOutDir: true
+    },
+    server: {
+      host: '0.0.0.0',
+      proxy: {
+        '^/api': {
+          target: 'http://localhost:8080/', // assume backend-api is running on localhost:8080
+          ws: true,
+          changeOrigin: true,
+          autoRewrite: true,
+          cookieDomainRewrite: {
+            '*': '127.0.0.1'
+          }
+        }
+      }
+    },
+    base: env.VITE_WEB_ROOT
+  }
+})
+</code></pre>
+<p>udpate vitest.config.ts</p>
+<pre><code class="language-js">export default defineConfig(env =&gt; mergeConfig( // update
+  viteConfig(env), // add
+  defineConfig({
+    test: {
+      environment: 'jsdom',
+      exclude: [...configDefaults.exclude, 'e2e/**'],
+      root: fileURLToPath(new URL('./', import.meta.url)),
+    },
+  }),
+)) // update
+</code></pre>
+<p>add .env for dev variable, context path, disable auth</p>
+<pre><code>VITE_WEB_ROOT=""
+HTTP_AUTH_ENABLED=false
+</code></pre>
+<p>add .env.production for production variable</p>
+<pre><code>VITE_WEB_ROOT="/production-context-path"
+HTTP_AUTH_ENABLED=true
+</code></pre>
+<p>// config frontend backend route
+update src/router/index.ts</p>
+<pre><code class="language-diff">-path: '/about',
++path: '/ui/about',
+</code></pre>
+<p>if you go back to Hash Mode, confirm that you are not using backend routing</p>
+<p>test producion build</p>
+<pre><code class="language-bash">npm run lint
+npm run format
+npm run build
+</code></pre>
+<p>config openapi generator</p>
+<pre><code class="language-bash">npm install --save-dev @openapitools/openapi-generator-cli
+npx openapi-generator-cli version-manager set 7.11.0
+</code></pre>
+<p>revise package.json add openapi command</p>
+<pre><code class="language-json">{
+  "scripts": {
+    "openapi": "openapi-generator-cli generate -i http://localhost:8080/v3/api-docs -g typescript-axios --additional-properties=withSeparateModelsAndApi=true,modelPackage=model,apiPackage=api -o src/openapi/"
+  }
+}
+</code></pre>
+<p>npm install axios
+npm install vue-i18n</p>
+<pre><code class="language-diff"># src/main.ts
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
++import i18n from "./i18n/"
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
++app.use(i18n)
+
+app.mount('#app')
+
+
+# src/i18n/index.ts
++import { createI18n } from 'vue-i18n'
++import zhTwJson from "./locales/zh-tw.json"
++
++const i18n = createI18n({
++  locale: 'zh-tw',
++  globalInjection: true,
++  messages: {
++    'zh-tw': zhTwJson
++  }
++})
++
++export default i18n
+
+# src/i18n/locales/zh-tw.json
++{
++  "app": {
++    "name": "YOUR APP NAME"
++  }
++}
+</code></pre>
+<p>npm install element-plus --save</p>
+<pre><code class="language-diff"># src/main.ts
+import './assets/main.css'
+
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+
+import i18n from "./i18n/"
+
++import ElementPlus from 'element-plus'
++import 'element-plus/dist/index.css'
++import { zhTw } from 'element-plus/es/locales.mjs'
+
+import App from './App.vue'
+import router from './router'
+
+const app = createApp(App)
+
+app.use(createPinia())
+app.use(router)
+app.use(i18n)
++app.use(ElementPlus, { locale: zhTw })
+
+app.mount('#app')
+</code></pre>
+<h1 id="draft"><a class="header" href="#draft">draft</a></h1>
+<p>config vue router (route guard)
+config vue axios interceptor
+config vue i18n
+config vue pinia
+config vue element-plus
+config openapi generator
+config vue validator (vuelidate)</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../spring/springBootLesson/spring-web-structure.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../spring/springBootLesson/spring-web-structure.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

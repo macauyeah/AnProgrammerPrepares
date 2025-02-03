@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>SteamDeck 上的 Podman - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="steam-deck-with-podman"><a class="header" href="#steam-deck-with-podman">Steam Deck With Podman</a></h1>
+<p>眾所週知，Steam Deck預裝的是一台Linux主機。但它的系統比較特別，為了可以安全更新，所以系統最主要的部份都設定為唯讀(read only)。也就是，傳統你可以直接在Linux上經管理員權限安裝的軟件包，全部都會被擋，即使你把唯讀部份設為可讀寫(read / write)，在下次更新時，都會被一次過覆蓋掉。</p>
+<p>筆者作為一個負責任的機迷+開發者，怎樣可以白白讓一台Linux機只可以玩遊戲呢? (怎樣跟老婆交代呢?)</p>
+<p>所以筆者千辛萬苦，找到一個折衷方案，讓他可以當為開發機使用，那就是Podman。(當然，若果大家有條件有金錢，直接改裝Windows就可以了。)</p>
+<h1 id="podman是什麼"><a class="header" href="#podman是什麼">Podman是什麼?</a></h1>
+<p>Podman跟Docker一樣，都是一些管理和運行Container的主程式。跟Docker不一樣的是，它是Open source，而且是daemonless。</p>
+<p>所謂的daemonless，就是不會有一個背景程式去長期管理Container。好處是不會因為背景程式死了，就全部Container一起掛掉，預設也不需要走管理員權限路線。但也因此跟Docker有一些使用上的差異，例如Podman沒有原生的docker-compose結構，即使坊間有python寫的podman-compose去硬對應docker-compose，但某些network是跟結構還是不能直接從Docker轉移過來。</p>
+<p>就筆者早期的踩雷經驗而言，用Podman跑起一兩個獨立固定Port的Container來說，都很夠用，也不會遇到奇怪的Bug。所以這次，亦用來作為Steam Deck運行整合式開發的Container。</p>
+<h1 id="steam-os-35-後"><a class="header" href="#steam-os-35-後">Steam OS 3.5 後</a></h1>
+<p>在Steam OS 3.5之後，已經有預安裝的 podman，筆者建議，就直接使用預安裝版本就好。如果一定要自行安裝，請參閱後述的 【Steam OS 3.5前，不平凡的安裝之路】。</p>
+<h2 id="build-in-podman"><a class="header" href="#build-in-podman">build in podman</a></h2>
+<p>Steam OS 3.5，雖然已經有預安裝 podman ，但在實際環境下，多安裝一個 podman-compose 可以更方便地一體化操作。 我們可以經 python 安裝。</p>
+<pre><code class="language-bash"># install podman-compose by python package manager pip
+python -m ensurepip --upgrade
+python -m pip install podman-compose
+</code></pre>
+<p>剛安裝 podman-compose ，會出現在自己的 home 目標的隱藏目錄。最後一步就是要加到自己的 PATH 環境變數裏面。我們如果源用 bash 設定，就直接修改 <code>~/.bash_profile</code> 。</p>
+<pre><code class="language-bash"># edit .bash_profile, add following command
+export PATH=$PATH:~/.local/bin/
+
+# then reboot / source .bash_profile
+</code></pre>
+<p>修改保存後，就重啟。之後 podman-compose 的指令就可以任意存取了。</p>
+<p>要補充一點，就是官方預安裝的 podman 還是缺少了一些 DNS 的元件，大家會看到 warning 提示。不過在筆者單個 container 的使用情境下，並不受影響。之後要在其上二次引用的 distrobox 也可以順利執行。</p>
+<h2 id="build-in-distrobox"><a class="header" href="#build-in-distrobox">build in distrobox</a></h2>
+<p>在 Steam OS 3.5 中，除了 podman 外，還有預裝 distrobox 。 distrobox 其實是基於 container 技術的擴展應用，它目標是讓用經過 container 就可以輕鬆使用到不同 linux 的發佈版本。例如我想在 Steam OS 中使用 Ubuntu ，經過 distrobox 就可以用到。道理上， distrobox 基於 container (podman) 操作的，所以它能做到的，其實自己手動經 podman 也是可以做到。但若果大家想使用跨 Linux 版本的 GUI 程式，筆者還是建議優先使用 distrobox 。因為 distrobox 預設已為不同版本的 Linux 的 Image (來源影像檔) 加入部份調整，在運行時亦有x11等互通，指令也較為簡單。</p>
+<p>以下做來例子，示範在 Steam OS 中就執行 Ubuntu 版本的 vscode。</p>
+<pre><code class="language-bash">xhost +si:localuser:$USER # enable x11 for desk user
+
+distrobox create --image ubuntu:24.04 --name ubuntu
+distrobox enter ubuntu
+
+# install vscode inside distrobox ubuntu
+sudo apt-get install wget gpg
+wget -qO- https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor &gt; packages.microsoft.gpg
+sudo install -D -o root -g root -m 644 packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
+echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" |sudo tee /etc/apt/sources.list.d/vscode.list &gt; /dev/null
+rm -f packages.microsoft.gpg
+
+sudo apt install apt-transport-https
+sudo apt update
+sudo apt install code # or code-insiders
+
+# start vscode inside distrobox ubuntu
+code
+
+# delete distrobox ubuntu
+distrobox stop ubuntu
+distrobox rm ubuntu
+</code></pre>
+<p>註: Distrobox 也不是萬能的，例如它的 Ubuntu 版本內沒有 snap ，所以不能執行 Ubuntu 版本的 Firefox。
+snap will not works (firefox not works)</p>
+<h1 id="steam-os-35前不平凡的安裝之路"><a class="header" href="#steam-os-35前不平凡的安裝之路">Steam OS 3.5前，不平凡的安裝之路</a></h1>
+<p>以下內容寫於2023年10月，當時版本為 Steam OS 3.4.x。 2023年11月之後 Steam OS 3.5.x , 3.6.x 推出後，筆者還有使用一段時間。直至2024年10月，才正式砍掉重練。以下安裝步聚，大家請留意是否有需要微調。</p>
+<h2 id="install-homebrew"><a class="header" href="#install-homebrew">install homebrew</a></h2>
+<p>Steam OS 3，雖然可以使用更改read / write，再使用pacman來安裝podman。但因為Steam OS更新後，全部要重來，工作量和網路流量都不少，所以筆者改為使用homebrew來安裝podman。homebrew只需要首次安裝時使用管理員權限，之後就會在/home資料夾下留下可執行的程式，所以它不會被Steam OS更新所破壞。</p>
+<pre><code class="language-bash"># brew install script, need sudo password
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"  # with sudo password
+
+# brew post install script, no sudo required
+(echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') &gt;&gt; /home/deck/.bash_profile
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+</code></pre>
+<h2 id="install-podman"><a class="header" href="#install-podman">install podman</a></h2>
+<pre><code class="language-bash">brew install podman
+
+# running rootless mapping for podman container
+# it might also affect how it download oci image
+sudo touch /etc/subuid /etc/subgid
+sudo usermod --add-subuid 100000-165535 --add-subgid 100000-165535 $USER
+</code></pre>
+<p>記得記得重新開機，之後應該就可以成功運行container</p>
+<pre><code class="language-bash">podman container run --name ubuntu2204 -it ubuntu:22.04 bash
+</code></pre>
+<h2 id="install-pasta"><a class="header" href="#install-pasta">install pasta</a></h2>
+<p>似乎在 podman 升級到 5.0.x 之後，需要一個名為 "pasta" 的依賴套件。這個套件要麼透過 pacman 安裝或從原始碼進行編譯。但為了避免 Steam OS 在更新時會破壞套件，我選擇了直接下載了它的二進位檔案。（我嘗試從原始碼編譯，但許多C 函式庫在 Steam OS 上無法取得的，最後只能直接下載官方的二進位檔。）</p>
+<p>It seems after upgrading podman to 5.0.x, podman need a dependency "pasta". Either install by pacman or build from source. In-case steam os will break the package later, I download the binary directly. (I tried to build from source but a lot of c library missing from steam os. That's why I download the binary direclty form official website)</p>
+<pre><code class="language-bash">curl https://passt.top/builds/latest/x86_64/pasta -o pasta
+ 
+chmod u+x pasta
+# chmod a+x pasta, if pasta's owned by root. let it share exec permission for everyone.
+
+# update PATH variable in current session or add in ~/.bashrc
+export PATH=$PATH:$(pwd)
+</code></pre>
+<h2 id="change-oci-runtime"><a class="header" href="#change-oci-runtime">change oci runtime</a></h2>
+<p>在添加了 pasta 之後，運行 podman 5.0.x 仍然失敗。podman 會抱怨 'crun' 的版本不正確。這是由於機器上存在兩個版本的 'crun'，一個來自 Steam OS 的 /usr/bin/crun，一個來自 brew。</p>
+<p>After adding pasta, running podman 5.0.x still fail. podman complaint 'crun' version is wrong. Becuase two verions of 'crun' in the machine, one from steam os /usr/bin/crun, one from brew.</p>
+<pre><code class="language-bash">podman run --name basic_httpd -dt -p 8080:80/tcp docker.io/nginx
+# Error: OCI runtime error: crun: unknown version specified
+</code></pre>
+<p>為解決這個問題，我們需要修改 podman 的設定，讓它的 oci runtime指向 brew 資料夾。（或者任何一個你行找回來的版本，版本最底要求為1.14.x以上，crun於brew 的版本為1.15)</p>
+<p>To solove the problem, need to config podman oci runtime to brew folder. (or any crun path with version higher than 1.14.x, version of crun in brew is 1.15)</p>
+<pre><code class="language-bash">mkdir -p ~/.config/containers/
+cp /usr/share/containers/containers.conf ~/.config/containers/
+</code></pre>
+<p>如下，在<code>[engine.runtimes]</code>底下加入 brew crun path</p>
+<p>add brew crun path to section <code>[engine.runtimes]</code> like below</p>
+<pre><code class="language-conf"># vim ~/.config/containers/containers.conf
+[engine.runtimes]
+crun = [
+  "/home/linuxbrew/.linuxbrew/bin/crun"
+]
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/OracleCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/MultipassPackerCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/OracleCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/MultipassPackerCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

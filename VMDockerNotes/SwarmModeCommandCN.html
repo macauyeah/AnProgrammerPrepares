@@ -1,0 +1,312 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Swarm mode 上線 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="swarm-mode-上線"><a class="header" href="#swarm-mode-上線">Swarm mode 上線</a></h1>
+<p>之前一直都討論Image 的打包形式，現在聊聊部署上線時的一些指令。</p>
+<h2 id="docker-service"><a class="header" href="#docker-service">Docker Service</a></h2>
+<p>swarm mode 主要通過"docker service" 指令去產生一堆可以在不同節點上運行的container。為了更加形象地講，我把container稱為Image的分身。</p>
+<p><code>docker service create</code>跟<code>docker container run</code>的感覺很像，兩者都可以指定image</p>
+<pre><code class="language-bash"># swarm mode
+$ docker swarm init
+$ docker service create --name nginx_s nginx
+
+# container mode
+$ docker container run -d --name nginx_c nginx
+</code></pre>
+<p>兩者的差別在於docker service 可以指定多少個分身，可以隨時加減數目，而且如果你有多過一台機器，分身就會在不同的機器上遊走。而docker container就是只對本機有操作，也不會散播到其他機器。</p>
+<pre><code class="language-bash"># swarm mode
+$ docker service create --replicas=2 --name nginx_s nginx
+$ docker service ls
+
+ID             NAME      MODE         REPLICAS   IMAGE          PORTS
+uro4rwy6nelh   nginx_s   replicated   2/2        nginx:latest
+
+$ docker service update --replicas=5 nginx_s
+$ docker service ls
+
+ID             NAME      MODE         REPLICAS   IMAGE          PORTS
+uro4rwy6nelh   nginx_s   replicated   5/5        nginx:latest
+
+# container mode
+$ docker container run -d --name nginx_c1 nginx
+$ docker container run -d --name nginx_c2 nginx
+$ docker container run -d --name nginx_c3 nginx
+$ docker container run -d --name nginx_c4 nginx
+$ docker container run -d --name nginx_c5 nginx
+$ docker container ls
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS         PORTS     NAMES
+c45771f06612   nginx     "/docker-entrypoint.…"   7 seconds ago    Up 6 seconds   80/tcp    nginx_c5
+a587a718da3a   nginx     "/docker-entrypoint.…"   9 seconds ago    Up 9 seconds   80/tcp    nginx_c4
+079f206f8645   nginx     "/docker-entrypoint.…"   9 seconds ago    Up 9 seconds   80/tcp    nginx_c3
+e10dc525fd22   nginx     "/docker-entrypoint.…"   10 seconds ago   Up 9 seconds   80/tcp    nginx_c2
+dcaa2b4bb3de   nginx     "/docker-entrypoint.…"   10 seconds ago   Up 9 seconds   80/tcp    nginx_c1
+</code></pre>
+<p>在建立網段時也差不多，service需要的是overlay network，而container用一般network就可以。</p>
+<pre><code># swarm mode
+$ docker network create --driver overlay nginx_s_gateway
+$ docker service update --network-add name=nginx_s_gateway,alias=gateway nginx_s
+$ docker service ps nginx_s
+ID             NAME            IMAGE          NODE         DESIRED STATE   CURRENT STATE             ERROR     PORTS
+fxqtheyvr914   nginx_s.1       nginx:latest   dockertest   Running         Running 33 seconds ago
+u0pvj1leoizw    \_ nginx_s.1   nginx:latest   dockertest   Shutdown        Shutdown 33 seconds ago
+q7arumjlxduv   nginx_s.2       nginx:latest   dockertest   Running         Running 36 seconds ago
+kurlwqfmopbg    \_ nginx_s.2   nginx:latest   dockertest   Shutdown        Shutdown 37 seconds ago
+zd0zlkhxafv0   nginx_s.3       nginx:latest   dockertest   Running         Running 40 seconds ago
+3kapr00fs6pt    \_ nginx_s.3   nginx:latest   dockertest   Shutdown        Shutdown 40 seconds ago
+5o4afd3whygo   nginx_s.4       nginx:latest   dockertest   Running         Running 35 seconds ago
+oxocropolbo8    \_ nginx_s.4   nginx:latest   dockertest   Shutdown        Shutdown 35 seconds ago
+x5y94jf3ok51   nginx_s.5       nginx:latest   dockertest   Running         Running 38 seconds ago
+cgld3au0w1i9    \_ nginx_s.5   nginx:latest   dockertest   Shutdown        Shutdown 39 seconds ago
+
+# container mode
+$ docker network create nginx_c_gateway
+$ docker network connect --alias gateway nginx_c_gateway nginx_c1
+$ docker network connect --alias gateway nginx_c_gateway nginx_c2
+$ docker network connect --alias gateway nginx_c_gateway nginx_c3
+$ docker network connect --alias gateway nginx_c_gateway nginx_c4
+$ docker network connect --alias gateway nginx_c_gateway nginx_c5
+</code></pre>
+<p>不過比較大的差異是service會停了原有的分身，重開新的分身去加入網段。所以上面的docker service ps nginx_s執行結果，就有一半是停掉的。</p>
+<p>類似地，docker service也不能單獨地停掉分身，頂多只能調整<code>--replicas=NUMBER</code>，來控制分身數量。而單機則可以經過<code>docker container stop</code>來暫停分身。</p>
+<h2 id="docker-stack"><a class="header" href="#docker-stack">Docker Stack</a></h2>
+<p>同樣地，在單機管理container時，可以通過內建的docker compose指令配搭docker-compose.yaml檔案，管理多個有協作關係的container。Swarm mode也可以通過docker stack去管理yaml檔案中的多個有協作關係的service。</p>
+<p>因為docker compose已支援v3及Compose Specification標準；但docker stack暫時只能支援到v3格式，所以說yaml檔案不能完全照搬。但指令上行為是差不多的。</p>
+<pre><code>docker stack deploy -c setting.yaml stack-name
+docker stack rm stack-name
+
+docker compose -f setting.yaml up -d
+docker compose down
+</code></pre>
+<p>docker stack也跟docker service類似，沒有隨時叫停的功能，而docker compose 就可以暫時叫停分身<code>docker compose -f setting.yaml stop</code>。</p>
+<h3 id="docker-stack-yaml"><a class="header" href="#docker-stack-yaml">Docker Stack yaml</a></h3>
+<p>以下就是一個可以重複文章前述 nginx service 的 yaml 檔範例，它跟原本的 compose 的格式差不多，但多了 deploy 的分支。以 yaml 的方式來編寫，可以更直觀地看出部署的更新設定，例如滾動更新，主機限制等。</p>
+<pre><code class="language-yaml">services:
+  s:
+    image: nginx
+    # ports:
+    #   - 80:80
+    deploy:
+      replicas: 5
+      update_config:
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role==manager
+</code></pre>
+<p>如同 docker compose 一樣，它會自動偵測設定檔有沒有更新，而決定是否要更新 container 。即使有多個 service，它也會只更新有加入或變動的部份。指令如下</p>
+<pre><code class="language-bash">docker stack deploy -c setting.yaml nginx
+</code></pre>
+<p>但它也跟 docker compose 一樣， yaml 檔中有東西消失了，對應該service 就會變成孤兒。孤兒 service 還會運行，而且不會被刪除。除非我們執行刪除指令</p>
+<pre><code class="language-bash">docker service rm SERVICE_NAME
+# 或者刪除整個 stack 
+docker service rm STACK_NAME
+</code></pre>
+<h2 id="docker-service-rollback"><a class="header" href="#docker-service-rollback">Docker Service Rollback</a></h2>
+<p>詳見<a href="SwarmModeRollbackCN.html">SwarmModeRollback.md</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/DeployDockerClusterCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/SwarmModeUndeployLeaveCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/DeployDockerClusterCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/SwarmModeUndeployLeaveCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

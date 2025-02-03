@@ -1,0 +1,6 @@
+[submodule "src/VMDockerNotes"]
+	path = src/VMDockerNotes
+	url = https://github.com/macauyeah/VMDockerNotes.git
+[submodule "src/gitNotes"]
+	path = src/gitNotes
+	url = https://github.com/macauyeah/gitNotes.git

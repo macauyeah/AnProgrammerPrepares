@@ -1,0 +1,276 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Docker Variable control - 中文 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="docker-variable-control"><a class="header" href="#docker-variable-control">Docker Variable control</a></h1>
+<p>我們在Docker Image的打包時，最簡單當然就是每個步驟都使用最新版本。例如Docker Base Image，大家可能選用latest tag，安裝linux package （Linux包）,也可能就apt install / yum 安裝最新的穩定版本。但如果我們想要更好地做測試，就要使用指定版本，方便追蹤問題。而Docker在打包和運行時，都有不同的方式讓大家定義或覆寫指定參數。</p>
+<h2 id="docker-build-arg"><a class="header" href="#docker-build-arg">Docker build arg</a></h2>
+<p>我們先從打包Image開始。</p>
+<p>例如我們需要使用一個Base image為 ubuntu，版本預設為22.04，但有需要時可以經build指令覆寫，可以這樣寫</p>
+<pre><code class="language-Dockerfile">ARG ubuntu_version=22.04
+FROM ubuntu:${ubuntu_version}
+</code></pre>
+<pre><code class="language-bash"># default ubuntu_version=22.04
+docker image build -t test2204 ./
+# or overwrite by --build-arg
+docker image build -t test2404 --build-arg="ubuntu_version=24.04"
+</code></pre>
+<p>雖然Dockerfile的RUN指令都是使用linux shell，但在Dockerfile中想表達條件控制（if else statment）就不太易看。在外部加入script做控制，是另一個可行的後備選擇，它更可以連image名字也進行參數化。</p>
+<pre><code class="language-bash"># in bash script, you also can
+if [ $beta == true ]
+then
+    ubuntu_version=24.04
+else
+    ubuntu_version=22.04
+fi
+
+docker image build -t test:${ubuntu_version} --build-arg ubuntu_version=${ubuntu_version}
+</code></pre>
+<h2 id="docker-container-run-and-docker-compose"><a class="header" href="#docker-container-run-and-docker-compose">Docker Container Run and Docker Compose</a></h2>
+<p>一般來講，Linux Container 在執行時，就等於進入Linux Shell。也就是，我們可以使用Shell中的環境變數。</p>
+<p>我們在打包Image前，已經可以在Dockerfile中定義自己的ENV數參（也就是環境變數）。與前面的Build Arg有所不同的是，ENV是定義在Dockerfile中，在Container運行時以環境變數的形式存在，它也可以在運行中被改變。而Arg，則只在打包Image時存在，運行期間就不存在了。（當然，你在打包時，用Arg傳入Env，以運到這個目的。）</p>
+<p>另一個更特別的性質是，那怕ENV沒有定義在Dockerfile中，我們運行時也可以加入更多的環境變數，大家就當成是一般Linux操作，隨時在自己的shell中加入變數。</p>
+<pre><code class="language-bash"># -e, --env for inline variable
+# --env-file for file
+docker container run -e MYVAR1 --env MYVAR2=foo --env-file ./env.list ubuntu bash
+</code></pre>
+<p>同樣地Docker compose，也支援環境變數。筆者建議environment可以使用Array格式，日後可以更方便地直接改為env_file。</p>
+<pre><code class="language-yaml"># docker-compose.yaml
+services:
+  ubuntu:
+    image: ubuntu:22.04
+    environment:
+      - RACK_ENV=development
+      - SHOW=true
+      - USER_INPUT
+</code></pre>
+<p>上述的寫法沒有任何問題，不過如果你的docker-compose.yaml是放在git等版本控制中，你更新環境變數就有可能會影響到其他人，這時你就會想轉成env_file。</p>
+<p>docker-compose.yaml預設就會讀當前資料夾的.env，就算不存在，也可以正常運行。（當然，大家的Image/Container應該要有預設值）</p>
+<pre><code class="language-yaml"># docker-compose.yaml
+services:
+  ubuntu:
+    image: ubuntu:22.04
+    # if env_file is not defined, it will load .env.
+    # or you can load the specific file.
+    # env_file:
+    #   - ./a.env 
+</code></pre>
+<p>env_file內，每一行就是一個變數</p>
+<pre><code># .env or a.env
+RACK_ENV=development
+SHOW=true
+USER_INPUT
+</code></pre>
+<p>使用預設的.env還有一個好處，就是我們可以把docker-compose.yaml也變成受環境變數控制。</p>
+<pre><code class="language-yaml"># docker-compose.yaml with variable control, only works in default .env
+services:
+  ubuntu:
+    image: ubuntu:${ubuntu_version}
+</code></pre>
+<pre><code># .env
+ubuntu_version=22.04
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/CronJobWithDockerCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/OracleCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/CronJobWithDockerCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/OracleCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

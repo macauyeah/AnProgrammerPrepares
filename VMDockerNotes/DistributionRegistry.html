@@ -1,0 +1,241 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Docker Tag 命名 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="distribution-registry"><a class="header" href="#distribution-registry">Distribution Registry</a></h1>
+<h1 id="docker-tag-命名"><a class="header" href="#docker-tag-命名">Docker Tag 命名</a></h1>
+<p>一般來講，同一個docker image會提供多個不同的版本，每個版本會附予不同的tag，以作標識。但以docker image的維護者來講，它的tag通常代表的是自己程式的版本號。不過這個版本號卻存在很多變數，就讓筆者好好地逐一說明。</p>
+<h2 id="程式的版本號"><a class="header" href="#程式的版本號">程式的版本號</a></h2>
+<p>在沒有Docker的年代，其實所有軟件在發佈時，都會標示版本號，方便使用方明確追蹤問題，自行選擇升級、降級以解決相容性問題。大家要重現問題，也能清清楚地重現。所以docker image的tag，在某程度，都是代表發佈自己的程式版本號。但以前的年代，軟件底層的依賴，例如OS層面的共享程式庫，則不在發佈的管控中，所以過去的程式，在跨電腦安裝時，都會出現缺少某些共享庫的問題。而使用了Docker後，image以內的共享庫的都會在打包的那一刻固定和發佈，就不會有漏的問題。</p>
+<h2 id="庫更新怎麼辦"><a class="header" href="#庫更新怎麼辦">庫更新，怎麼辦</a></h2>
+<p>上面說到image可以打包共享庫，但問題是共享庫也會有安全性更新問題，那麼對docker image的維護者來講，它自己的tag又該如何命名？</p>
+<p>因為庫的量可大可少，所以一般來說，都不可能完全把各個庫的版本號寫在自己的tag上。退而求其次，就是用"版本號+日期"，庫的細版本號，就存在原始碼當中。<a href="https://hub.docker.com/_/ubuntu/tags">Ubuntu</a> 就是這樣的例子。</p>
+<p>不過"版本號+日期"的命名方式真的方便嗎？每次下遊用戶想更新去最近版本，都要自己找一次最近的日期。這樣對很多用戶來講都不夠方便。所以docker又提供了一個重tag的功能。例如ubuntu:noble，在早些時候指著noble-20240904.1，然後過幾天，又指向更新的noble-20241009。更常見的是latest，每次image都預設會存在，docker也希望大家會定期更新這個tag，讓大家可以更易地找到最新版本。</p>
+<p>註: 這跟git tag有所不同，git tag並不預期會變的。當協作者收到tag後，那怕上遊刻意更新tag指針，協作者沒有刪除原tag之前，都不會知道tag更新去了哪裏。</p>
+<h2 id="我們該如何選"><a class="header" href="#我們該如何選">我們該如何選</a></h2>
+<p>在發佈方和引用方來講，引用時可以明確使用唯一的"版本號+日期"，對穩定性來講是有意義的。不過多多少少，會產生額外的時間成本。發佈方來說，就是多用了一些儲存空間，方便引用方可以隨時找到舊(庫)版本。而引用方，就要手動修改引用號，作為驗收依據，自動更新的難度比較大。</p>
+<p>但對於自動更新要求比較大的情況下，可能就是使用latest或者會隨時更新的share tag(共用tag)比較實際。但我們也依然要定一些方式去版本更新記錄，例如：同時使用</p>
+<ul>
+<li>beta</li>
+<li>latest</li>
+<li>archive</li>
+</ul>
+<p>每日自動更新beta，只有所有測試都通過時，才把archive指向現在的latest，再把latest指向現在的beta。這樣做的好處是，核心的docker stack檔案改變的機會較少，也可以免除docker swarm做太細緻的權限管理。</p>
+<h1 id="draft"><a class="header" href="#draft">draft</a></h1>
+<p><a href="https://distribution.github.io/distribution">Offical Doc</a></p>
+<h1 id="garbage-collection-on-registry"><a class="header" href="#garbage-collection-on-registry">Garbage collection on registry</a></h1>
+<p>config</p>
+<pre><code class="language-yml">storage:
+  filesystem:
+    rootdirectory: /var/lib/registry
+  delete:
+    enabled: true
+</code></pre>
+<p>command</p>
+<pre><code class="language-sh">bin/registry garbage-collect --delete-untagged=true /etc/docker/registry/config.yml
+</code></pre>
+<p>some image keep using same tag to keep check latest version; but older blob is not able to be deleted according to normal manifest garbage collection. Must use --delete-untagged flag to delete unused blob</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../VMDockerNotes/BinaryAsDockerImageCN.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../VMDockerNotes/DeployDockerClusterCN.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../VMDockerNotes/BinaryAsDockerImageCN.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../VMDockerNotes/DeployDockerClusterCN.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

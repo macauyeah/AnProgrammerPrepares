@@ -1,0 +1,323 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Java Lamdbda - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="lambda-表達式之可讀性"><a class="header" href="#lambda-表達式之可讀性">Lambda 表達式之可讀性</a></h1>
+<p>Java作為一個真OOP物件導向的程式，在設計和編寫上是很嚴謹，什至是囉嗦的程度。近年很多Programmer因為各種原因，都放棄Java跳船去其他語言。</p>
+<p>Javascript是其中一個很多人的選擇，因為Javascript有nodejs的加持，在Web世界下，可以同時走frontend、backend路線。而Javacript亦有一個很明顯的特性，就是大部份的library都以callback的型式出現。另外，Javascript也讓很多人覺得很簡潔，這除了是因為它沒有強型態的規限外，另一個原因也是因為有callback的大量使用。</p>
+<h2 id="function-pointer"><a class="header" href="#function-pointer">Function Pointer</a></h2>
+<p>其實callback，籠統一點講就是在一個function A傳入另一個function pointer B。而編寫function A的作者，並初期並不知道function pointer B的實際操作會是什麼。A作者只是強調在特別定時候，它就會使用這個function pointer B。而這種把function pointer 傳來傳去的做法，就可以看成是Functional Programming的基礎。</p>
+<p>Functional Programming除了把function pointer 當成是一等公民以外，還有很多附加要求，例如：</p>
+<ul>
+<li>Pure Function: 它只會使用到自己的Local Variable本地變數，這樣它的作用域就鎖死在Function內部，就不會有副作用。
+<ul>
+<li>傳統的OOP，Class中不少變數會以Class Attribute型式存在，雖然它們可能是private attribute，但還是獨立於Function外，這樣各Function的操作，都要靠作者好好地記著Class Attribute的狀態。</li>
+</ul>
+</li>
+<li>Nested Functions: 與普通程式語言類似，很多情況下都需要local variable，而Function Programming要足夠好用的話，就需要彈性地在function裏定義local function pointer。</li>
+</ul>
+<h2 id="java-lambda-表達式"><a class="header" href="#java-lambda-表達式">Java Lambda 表達式</a></h2>
+<p>其實從Java 8開始，就有提供Lambda表達式，這是一個可以制作匿名function pointer的方法。所以硬要講，Java也可以做Functional Programming。</p>
+<p>但必需要盡早強調的是，Java經常性地使用class attribute，它們很多時候都會引申請狀態的概念。即是在它們必需經過特定步驟後，class attribute才會有特定的意義。也就是Lambda表達式想保持Pure Function的特性，它可以使用的時期就有很大限制。</p>
+<p>但我們還有必要使用Lambda嗎? 以筆者的經驗來講，它還是有作用的，特別在於它可以改善Class Function的閱讀性。</p>
+<p>例如下面一個Java Class。它是一個工廠，提供一個服務可以生產一堆車。那些車而需要經過特定檢測，才能推出。</p>
+<pre><code class="language-java">public class Factory {
+    // ex1
+    public static List&lt;Car&gt; generateListOfCarByForLoop() {
+        List&lt;Car&gt; tempCars = new ArrayList&lt;&gt;();
+        // many other logic
+        // many other logic
+        // many other logic
+        List&lt;Car&gt; passTestCars = new ArrayList&lt;&gt;();
+        for (Car car : tempCars) {
+            if (car.getWheels().size() == 4) {
+                // many other check logics
+                // many other check logics
+                // many other check logics
+                passTestCars.add(car);
+            }
+        }
+        return passTestCars;
+    }
+}
+</code></pre>
+<p>中間的for loop可以用lambda來改寫。</p>
+<pre><code class="language-java">    // ex2
+    public static List&lt;Car&gt; generateListOfCarByLamda() {
+        List&lt;Car&gt; cars = new ArrayList&lt;&gt;();
+        // many other logic
+        // many other logic
+        // many other logic
+        cars = cars.stream().filter((car) -&gt; {
+            if (car.getWheels().size() == 4) {
+                // many other check logics
+                // many other check logics
+                // many other check logics
+                return true;
+            }
+            return false;
+        }).toList();
+        return cars;
+    }
+</code></pre>
+<p>有人會說，上述ex2只是形式上改變了，沒有特別易讀。就像ex3這樣，把特定邏輯抽成獨立function，才是真正的易讀，對嗎?</p>
+<pre><code class="language-java">   // ex3
+    public static List&lt;Car&gt; generateListOfCarByForLoopFunction() {
+        List&lt;Car&gt; tempCars = new ArrayList&lt;&gt;();
+        // many other logic
+        // many other logic
+        // many other logic
+        List&lt;Car&gt; passTestCars = filterCarsByWheelsSize(tempCars, 4);
+        return passTestCars;
+    }
+
+    private static List&lt;Car&gt; filterCarsByWheelsSize(List&lt;Car&gt; originalList, int targetSize) {
+        List&lt;Car&gt; passTestCars = new ArrayList&lt;&gt;();
+        for (Car car : originalList) {
+            if (car.getWheels().size() == targetSize) {
+                // many other check logics
+                // many other check logics
+                // many other check logics
+                passTestCars.add(car);
+            }
+        }
+        return passTestCars;
+    }
+</code></pre>
+<p>上述ex3是一個有效的改進。如果大家不計較傳入參數的先後順序及交互影響的話，就已經很足夠。</p>
+<p>但如果大家對於多參數的解讀又怎樣?</p>
+<pre><code class="language-java">private static List&lt;Car&gt; someotherfunction(List&lt;Car&gt; cars, List&lt;Wheel&gt; wheels)
+</code></pre>
+<p>大家又會不會突然停住，想想到底是cars影響wheels，還是wheels影響cars?</p>
+<p>對於多參數的function來講，相互影響就會越來越多，但使用Lambda的話，可以針對性地表達這是一個Predicate Lambda。</p>
+<pre><code class="language-java">    // ex4
+    public static List&lt;Car&gt; generateListOfCarByLamdaComposition() {
+        List&lt;Car&gt; cars = new ArrayList&lt;&gt;();
+        // many other logic
+        // many other logic
+        // many other logic
+        List&lt;Wheel&gt; wheels = new ArrayList&lt;&gt;(4);
+        cars = cars.stream().filter(
+            filterCarByWheelSizePredicate(wheels)
+        ).toList();
+        return cars;
+    }
+
+    private static Predicate&lt;Car&gt; filterCarByWheelSizePredicate(List&lt;Wheel&gt; wheels){
+        return (car) -&gt; {
+            if (car.getWheels().size() == wheels.size()) {
+                // many other check logics
+                // many other check logics
+                // many other check logics
+                return true;
+            }
+            return false;
+        };
+    }
+</code></pre>
+<p>就最後的ex4版本，可以很明確的知道是cars被Predicate所作用</p>
+<p>如果大家還有其他使用Lambda的明顯好處，也可以一起來Github分享大家的<a href="https://github.com/macauyeah/spring-boot-demo">Code</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../spring/springBootMultipleDatasource.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../spring/javaLambda2.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../spring/springBootMultipleDatasource.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../spring/javaLambda2.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../mermaid.min.js"></script>
+        <script src="../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

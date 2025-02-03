@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html lang="zh-Hant" class="light sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Spring Boot 04 - 進入http json api 世代 - 程序員的自我修養 A Programmer Prepares</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">程序員的自我修養 A Programmer Prepares</h1>
+
+                    <div class="right-buttons">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="spring-boot-04---進入-http-json-api-世代"><a class="header" href="#spring-boot-04---進入-http-json-api-世代">Spring Boot 04 - 進入 http json api 世代</a></h1>
+<p>本節，我們將會建立一個http服務，提供json api讓程式訪問。</p>
+<h2 id="下戴模版"><a class="header" href="#下戴模版">下戴模版</a></h2>
+<p>我們跟上節一樣，使用Spring Initializr (Maven) 下載模版，但細節筆者就不再講啦。Dependency主要選擇</p>
+<ul>
+<li>Spring Web</li>
+<li>Spring Boot DevTools</li>
+</ul>
+<p>下載後，可以直接運行測試，可以用指令 <code>mvn test</code> 或經IDE運行。Spring會至少測試下能不能成功取用預設的8080端口。</p>
+<h2 id="controller"><a class="header" href="#controller">Controller</a></h2>
+<p>我們若要實作 http json api，需要在 spring 中加入一個類，附註為
+@RestController ，那方便起見，類名我們也命名為 XXXController 吧。作為示範，我們弄一個 HomeController.java ，裏面有最常見的 http GET, POST功能。</p>
+<pre><code class="language-java">// src/main/java/io/github/macauyeah/springboot/tutorial/springbootwebapibasic/controller/HomeController.java
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+// ... other import
+
+@RestController
+@RequestMapping("/api")
+public class HomeController {
+    @GetMapping("/someRecord/{uuid}")
+    public Map&lt;String, String&gt; readSomeRecord(@PathVariable String uuid) {
+        return Map.of("ret", "your uuid:" + uuid);
+    }
+
+    @PostMapping("/someRecord")
+    public Map&lt;String, String&gt; createSomeRecord(@RequestBody Map&lt;String, String&gt; requestBody) {
+        HashMap&lt;String, String&gt; ret = new HashMap&lt;&gt;(requestBody);
+        ret.put("ret", "got your request");
+        return ret;
+    }
+}
+</code></pre>
+<p>HomeController裏，完整的URL 其實為:</p>
+<ul>
+<li>GET http://localhost:8080/api/someRecord/{uuid}</li>
+<li>POST http://localhost:8080/api/someRecord</li>
+</ul>
+<p>URL中的api之後的路徑，都是定義在 HomeController 中，而前半的8080及context path，是使用預設值。在正式環境下，可能隨時會被重新定義。但我們做本地測試，只需要驗證預設值就可以了。</p>
+<p>我們真的運行起程式<code>mvn clean compile spring-boot:run</code>，再使用最簡測試工具進行測試。Windows的朋友，可以選擇Postman作為測試，它有圖形介面。而linux的朋友，請用curl，預設安裝都會有。下列為方便表示測試參數，筆者選用curl。</p>
+<p>測試GET，其中1234會自動對應到spring裏的uuid。</p>
+<pre><code class="language-bash">curl http://localhost:8080/api/someRecord/1234
+
+# return
+{"ret":"your uuid:1234"}
+</code></pre>
+<p>測試 POST，其中的 -d 參數，會對應 spring裏的 @RequestBody， -H 參數則是設定 http header 的意思，我們就使用約定俗成的 json 作為 header 。</p>
+<pre><code class="language-bash">curl -X POST http://localhost:8080/api/someRecord -H "Content-Type: application/json" -d '{"requst":"did you get it?"}'
+
+# return
+{"requst":"did you get it?","ret":"got your request"}
+</code></pre>
+<p>上面的兩個操作，都回傳了我們輸入的資訊，這代表了我們成功用spring架起了http json api，而且正常讀入資訊。</p>
+<h2 id="test-case"><a class="header" href="#test-case">Test Case</a></h2>
+<p>雖然我們可以正常地架起 api，但每次開發都要 postman / curl這種工具額外試一次，其實也有一些成本。而且 api 數量變大，或經多次修改後，就重複人手執行，就變得相當討厭。</p>
+<p>面對這個問題，筆者會建議寫測試用例，即是Test Case，而且用Spring內置的@SpringBootTest來寫。</p>
+<p>產生一個空的Test類，vscode中，最簡單可以Source Action =&gt; Generate Test，然後加入這次要測試的參數。</p>
+<pre><code class="language-java">// src/test/java/io/github/macauyeah/springboot/tutorial/springbootwebapibasic/controller/HomeControllerTest.java
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+public class HomeControllerTest {
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    void testGetSomeRecord() throws Exception {
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.get("/api/someRecord/1234")
+                .contentType(MediaType.APPLICATION_JSON);
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.ret").value("your uuid:1234"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+
+    @Test
+    void testPostSomeRecord() throws Exception {
+        String request = """
+                {"requst":"did you get it?"}
+                    """;
+        RequestBuilder requestBuilder = MockMvcRequestBuilders.post("/api/someRecord")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(request);
+        this.mockMvc.perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.jsonPath("$.requst").value("did you get it?"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.ret").value("got your request"))
+                .andDo(MockMvcResultHandlers.print());
+    }
+}
+</code></pre>
+<p>最後就是執行 <code>mvn test</code> 或經IDE運行，應該都會得到所有測試都通過的結果。</p>
+<pre><code class="language-bash">mvn test
+# other test result ...
+[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.368 s -- in io.github.macauyeah.springboot.tutorial.springbootwebapibasic.controller.HomeControllerTest
+# other test result ...
+</code></pre>
+<p>上面的程式碼很多，我們逐一來。</p>
+<ul>
+<li>@SpringBootTest 寫在類的外面，代表執行這個測試類時，需要運行起整個Spring程序，當然也包括http的部份。</li>
+<li>@AutoConfigureMockMvc 寫在類的外面，代表執行這個測試類時，可以模擬一些發向自己的 http 請求。</li>
+<li>@Autowired private MockMvc mockMvc 寫在類的裏面，因為之前有定義了可以模擬 http 的請求，Spring在運行時為大家提供了那個所謂的模擬http client的實例。</li>
+<li>MockMvcRequestBuilders，則是建造要測試的URL及Header參數。</li>
+<li>MockMvcResultMatchers，則是檢查回傳的結果是否如遇期的一樣。</li>
+<li>為何這個http client叫模擬 - Mock ? 因為在測試用例中，可能連Controller 內部依賴組件也需要進一步模擬，這樣才能把測試目標集中在Controller裏，這也是單元測試的原意。只是本次的例子看不出模擬與否的差別。而且它還模擬了很多東西，例如權限，只是本篇沒有演示怎麼做。權限功能等將在後述的篇章中解紹。</li>
+<li>MockMvcResultMatchers.jsonPath()，這是用來檢測json的結構是否跟預期一樣。有些網路上的其他例子會簡寫成 jsonPath() ，但因為vscode IDE的自動import功能比較差，筆者還是保留傳統的寫法。</li>
+</ul>
+<p>如果大家覺得@SpringBootTest很難，想折衷地把其他測試方法，那麼把 postman / curl好好管理起來，每次修改完程式，都完整地執行一次 postman / curl ，也可以達到測試的效果。只不過大家還是要好好學會整合 postman / curl，知道如何檢測json結構，什麼時候有錯，什麼時候叫測試通過，所以也要花一樣功夫來實現。</p>
+<p>最後，大家千萬不要因為測試難寫而逃課，因為寫測試絕對地可以減輕日後重執行的工作量。除非你的程式碼即用即棄，否則都建議寫測試。(測試跟寫文檔不一樣，有了測試也不能沒有文檔。好消息的是，文檔現在越來越多自動生成的工具，我們日後再找機會介紹。)</p>
+<h2 id="source-code"><a class="header" href="#source-code">Source Code</a></h2>
+<p><a href="https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/spring-boot-web-api-basic">spring boot web api basic</a></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../../spring/springBootLesson/03-spring-data-test-case.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../../spring/springBootLesson/05-spring-web-spring-data.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../../spring/springBootLesson/03-spring-data-test-case.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../../spring/springBootLesson/05-spring-web-spring-data.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
+
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
+
+        <!-- Custom JS scripts -->
+        <script src="../../mermaid.min.js"></script>
+        <script src="../../mermaid-init.js"></script>
+
+
+    </div>
+    </body>
+</html>

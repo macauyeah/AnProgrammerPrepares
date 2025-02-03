@@ -1,0 +1,43 @@
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # To push a branch 
+      pull-requests: write  # To create a PR from that branch
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        #fetch-depth: 0
+        submodules: 'true'
+    - name: Install latest mdbook
+      run: |
+        sudo apt-get update && sudo apt-get install -y cargo
+        cargo install mdbook mdbook-mermaid
+        echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+    - name: Deploy GitHub Pages
+      run: |
+        # This assumes your book is in the root of your repository.
+        # Just add a `cd` here if you need to change to another directory.
+        mdbook build
+        # remove submodule because later github will checkout branch gh-pages to deploy. and it might not able to handle submodule
+        git submodule deinit -f src/VMDockerNotes && git submodule deinit -f src/gitNotes
+        rm -rf .git/modules/
+        git rm -f src/VMDockerNotes && git rm -f src/gitNotes
+        # original script form mdbook guide line
+        git worktree add gh-pages
+        git config user.name "Deploy from CI"
+        git config user.email ""
+        cd gh-pages
+        # Delete the ref to avoid keeping history.
+        git update-ref -d refs/heads/gh-pages
+        rm -rf *
+        mv ../book/* .
+        git add .
+        git commit -m "Deploy $GITHUB_SHA to gh-pages"
+        git push --force --set-upstream origin gh-pages
