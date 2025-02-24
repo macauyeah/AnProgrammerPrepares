@@ -56,7 +56,13 @@ java -jar target/YOUR_JAR_NAME
 
 但當大家有追求，需要寫自動測試，有機會不同自動測試需要啟用不同的 Profile ，更有可能出現混合Profile的情況，這件事就變得很複雜。我們需要繼續深入了解一下 Spring Boot 的覆蓋機制，下面將會以測試方式導出結論。
 
-如果真的對混合 Profile 沒有太多信心，我們也可以用單一 Profile 的方式，自行去模擬混合 Profile ，例如除了dev, uat, test之外，我們可以加入 dev-test, uat-test, default-test 作為驅分。這樣應該可以簡化測試的複雜度，不過 properties 檔案就可能會成幾何級成長。
+如果真的對混合 Profile 沒有太多信心，我們也可以用單一 Profile 重組不同 properties 的方式，自行去模擬混合 Profile ，例如除了dev, uat, test之外，我們可以加入 dev-test, uat-test, default-test 作為驅分。這樣應該可以簡化測試的複雜度，不過 properties 檔案就可能會成幾何級成長。
+
+但在某情特殊情況下，我們不可能簡單地重組 properties 等型式去做測試，例如針對部份uat-test的測試，只有部份可以執行，部份不可以，那麼我們還是需要用到混合 Profile ，限定某些測試需要執個某個 profile ，但其餘部份可以動態切換。
+
+有條件的讀者，也可以先行試玩一下混合 profile 的特性，下期筆者再為不同情況作解紹。
+# 混合Profile Source code
+[spring boot profile](https://github.com/macauyeah/spring-boot-demo/tree/main/spring-boot-tutorial/spring-boot-profile)
 
 ## 通过 Maven 参数激活 Profile
 
